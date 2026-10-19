@@ -1,0 +1,622 @@
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;600;700;800&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<div class="coc" id="cocRoot">
+<style>
+.coc {
+    --bg: #050308; --bg-2: #08050F;
+    --surf: #100A1E; --surf-2: #160E28;
+    --bor: rgba(196,132,252,.12); --bor-2: rgba(196,132,252,.28);
+    --p1: #A855F7; --p2: #C084FC; --p3: #D8B4FE; --pm: #F472B6;
+    --iv: #F8F7FF; --soft: #C9C4D6; --mut: #8F899F; --dim: #5A5468;
+    --glow: rgba(168,85,247,.5); --pm-glow: rgba(244,114,182,.35);
+    --ok: #22C55E;
+    --ease: cubic-bezier(.22,1,.36,1);
+    --mnr: 'Manrope', sans-serif;
+    --jbm: 'JetBrains Mono', monospace;
+    background: var(--bg); color: var(--soft);
+    font-family: 'Inter', system-ui, sans-serif;
+    line-height: 1.6; position: relative;
+    -webkit-font-smoothing: antialiased; overflow-x: clip;
+}
+.coc *, .coc *::before, .coc *::after { box-sizing: border-box; margin: 0; padding: 0; }
+.coc a { color: inherit; text-decoration: none; }
+.coc button { font: inherit; border: 0; background: none; cursor: pointer; color: inherit; }
+.coc img { max-width: 100%; display: block; }
+.coc ::selection { background: var(--p1); color: #fff; }
+
+.coc-c { max-width: 1240px; margin: 0 auto; padding: 0 32px; position: relative; z-index: 2; }
+.coc-sec { padding: 120px 0; position: relative; z-index: 1; }
+
+/* Typography */
+.coc-eye { display: inline-flex; align-items: center; gap: 12px; font-family: var(--jbm); font-size: 10.5px; letter-spacing: .3em; text-transform: uppercase; color: var(--p2); margin-bottom: 22px; font-weight: 600; }
+.coc-eye::before { content: ''; width: 32px; height: 1px; background: linear-gradient(90deg, transparent, var(--p2)); }
+.coc-h1 { font-family: var(--mnr); font-size: clamp(2.4rem, 5.5vw, 4.4rem); font-weight: 700; line-height: 1.02; letter-spacing: -.045em; color: var(--iv); }
+.coc-h2 { font-family: var(--mnr); font-size: clamp(1.8rem, 3.8vw, 3rem); font-weight: 700; line-height: 1.06; letter-spacing: -.035em; color: var(--iv); }
+.coc-h2 span { background: linear-gradient(120deg, var(--p2), var(--pm)); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; }
+.coc-lead { color: var(--mut); font-size: 1.08rem; max-width: 620px; line-height: 1.72; font-weight: 300; }
+
+/* Reveal */
+.coc-r { opacity: 0; transform: translateY(26px); transition: opacity 1s var(--ease), transform 1s var(--ease); transition-delay: var(--d, 0ms); }
+.coc-r.is-in { opacity: 1; transform: translateY(0); }
+
+/* Hero */
+.coc-hero { min-height: 92vh; padding: 140px 0 100px; position: relative; overflow: hidden; display: flex; align-items: center; }
+.coc-hero__bg { position: absolute; inset: 0; pointer-events: none; z-index: 0; }
+.coc-hero__bg::before { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse 70% 60% at 20% 40%, rgba(124,58,237,.22), transparent 60%), radial-gradient(ellipse 50% 50% at 80% 70%, rgba(244,114,182,.1), transparent 65%); }
+.coc-hero__grid { position: absolute; inset: 0; background-image: linear-gradient(rgba(196,132,252,.04) 1px, transparent 1px), linear-gradient(90deg, rgba(196,132,252,.04) 1px, transparent 1px); background-size: 56px 56px; -webkit-mask-image: radial-gradient(ellipse 80% 60% at 50% 50%, #000 30%, transparent 80%); mask-image: radial-gradient(ellipse 80% 60% at 50% 50%, #000 30%, transparent 80%); }
+.coc-hero__in { display: grid; grid-template-columns: 1.1fr .9fr; gap: 60px; align-items: center; width: 100%; position: relative; z-index: 1; }
+.coc-hero__status { display: inline-flex; align-items: center; gap: 10px; font-family: var(--jbm); font-size: 10.5px; letter-spacing: .24em; text-transform: uppercase; color: var(--p2); font-weight: 600; margin-bottom: 22px; }
+.coc-hero__status::before { content: ''; width: 7px; height: 7px; border-radius: 50%; background: var(--ok); box-shadow: 0 0 12px var(--ok); animation: cocPulse 1.8s ease-in-out infinite; }
+@keyframes cocPulse { 0%, 100% { opacity: 1; } 50% { opacity: .35; } }
+.coc-hero__sub { color: var(--mut); font-size: 1.1rem; line-height: 1.75; font-weight: 300; max-width: 520px; margin: 24px 0 40px; }
+.coc-hero__btns { display: flex; gap: 14px; flex-wrap: wrap; }
+
+/* Buttons */
+.coc-btn { position: relative; display: inline-flex; align-items: center; justify-content: center; gap: 10px; padding: 16px 30px; border-radius: 100px; font-family: var(--mnr); font-size: 14.5px; font-weight: 700; letter-spacing: .005em; white-space: nowrap; cursor: pointer; transition: transform .4s var(--ease), box-shadow .4s var(--ease), background .4s var(--ease); isolation: isolate; overflow: hidden; }
+.coc-btn--pri { background: linear-gradient(120deg, var(--p1), var(--pm)); color: #fff; box-shadow: 0 12px 40px -14px rgba(168,85,247,.85), inset 0 1px 0 rgba(255,255,255,.2); }
+.coc-btn--pri:hover { transform: translateY(-3px); box-shadow: 0 20px 60px -18px rgba(168,85,247,1), 0 0 40px -8px var(--pm-glow); }
+.coc-btn--ghost { background: rgba(23,16,42,.4); border: 1px solid var(--bor-2); color: var(--iv); backdrop-filter: blur(10px); }
+.coc-btn--ghost:hover { border-color: var(--p2); background: rgba(168,85,247,.1); transform: translateY(-3px); }
+.coc-arr { display: inline-block; transition: transform .4s var(--ease); }
+.coc-btn:hover .coc-arr { transform: translateX(5px); }
+
+/* Orb portal */
+.coc-hero__portal { position: relative; aspect-ratio: 1; display: flex; align-items: center; justify-content: center; perspective: 1000px; }
+.coc-orb { position: relative; width: 82%; aspect-ratio: 1; border-radius: 50%; background: radial-gradient(circle at 32% 30%, #E9D5FF 0%, #C084FC 22%, #7C3AED 52%, #1A0B33 92%); box-shadow: 0 0 80px rgba(168,85,247,.65), 0 0 160px rgba(124,58,237,.4), inset -30px -40px 60px rgba(0,0,0,.75), inset 30px 20px 70px rgba(255,255,255,.18); animation: cocOrbFloat 8s ease-in-out infinite; transition: transform .8s var(--ease); }
+.coc-orb::before { content: ''; position: absolute; inset: -15%; border-radius: 50%; background: radial-gradient(circle, rgba(168,85,247,.28), transparent 65%); filter: blur(40px); pointer-events: none; z-index: -1; animation: cocOrbHalo 5s ease-in-out infinite; }
+@keyframes cocOrbFloat { 0%, 100% { transform: translateY(0) scale(1); } 50% { transform: translateY(-14px) scale(1.02); } }
+@keyframes cocOrbHalo { 0%, 100% { opacity: .7; transform: scale(1); } 50% { opacity: 1; transform: scale(1.12); } }
+.coc-orb__ring { position: absolute; top: 50%; left: 50%; width: 100%; aspect-ratio: 1; margin: -50% 0 0 -50%; border-radius: 50%; border: 1px dashed rgba(196,132,252,.28); animation: cocRingSpin 40s linear infinite; pointer-events: none; }
+.coc-orb__ring::before, .coc-orb__ring::after { content: ''; position: absolute; width: 6px; height: 6px; border-radius: 50%; background: var(--p2); box-shadow: 0 0 12px var(--glow); }
+.coc-orb__ring::before { top: 0; left: 50%; transform: translateX(-50%); }
+.coc-orb__ring::after { bottom: 0; left: 50%; transform: translateX(-50%); }
+@keyframes cocRingSpin { to { transform: rotate(360deg); } }
+.coc-orb__label { position: absolute; padding: 6px 14px; border-radius: 100px; background: rgba(23,16,42,.7); border: 1px solid var(--bor-2); font-family: var(--jbm); font-size: 10px; font-weight: 600; letter-spacing: .18em; text-transform: uppercase; color: var(--p3); backdrop-filter: blur(10px); animation: cocFloat 6s ease-in-out infinite; white-space: nowrap; pointer-events: none; }
+.coc-orb__label--1 { top: 12%; left: 5%; animation-delay: 0s; }
+.coc-orb__label--2 { top: 40%; right: -4%; animation-delay: 1.5s; }
+.coc-orb__label--3 { bottom: 14%; left: 8%; animation-delay: 3s; }
+@keyframes cocFloat { 0%, 100% { transform: translate(0, 0); } 50% { transform: translate(8px, -10px); } }
+
+/* Intent cards */
+.coc-intent__head { text-align: center; margin-bottom: 70px; }
+.coc-intent__grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px; }
+.coc-intent { position: relative; padding: 48px 44px; border-radius: 28px; overflow: hidden; cursor: pointer; background: linear-gradient(155deg, rgba(16,10,30,.7), rgba(8,5,15,.95)); border: 1px solid var(--bor); transition: transform .55s var(--ease), border-color .55s var(--ease), box-shadow .55s var(--ease), background .55s var(--ease); }
+.coc-intent::before { content: ''; position: absolute; inset: 0; border-radius: inherit; padding: 1px; background: linear-gradient(135deg, var(--p2), transparent 40%, transparent 60%, var(--pm)); -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0); -webkit-mask-composite: xor; mask-composite: exclude; opacity: 0; transition: opacity .55s var(--ease); pointer-events: none; }
+.coc-intent:hover { border-color: transparent; box-shadow: 0 40px 90px -35px rgba(168,85,247,.7), 0 0 60px -25px var(--pm-glow); }
+.coc-intent:hover::before { opacity: 1; }
+.coc-intent.is-active { border-color: var(--p2); background: linear-gradient(155deg, rgba(30,16,64,.85), rgba(16,10,30,.95)); box-shadow: 0 30px 80px -30px var(--glow); }
+.coc-intent__ic { width: 56px; height: 56px; border-radius: 16px; display: grid; place-items: center; font-size: 26px; margin-bottom: 26px; background: linear-gradient(135deg, rgba(168,85,247,.16), rgba(244,114,182,.12)); border: 1px solid rgba(168,85,247,.25); transition: transform .7s var(--ease); }
+.coc-intent:hover .coc-intent__ic, .coc-intent.is-active .coc-intent__ic { transform: rotate(-8deg) scale(1.08); }
+.coc-intent__t { font-family: var(--mnr); font-size: 1.6rem; font-weight: 700; color: var(--iv); letter-spacing: -.028em; line-height: 1.2; margin-bottom: 12px; }
+.coc-intent__d { font-size: 14.5px; color: var(--mut); line-height: 1.65; font-weight: 300; }
+.coc-intent__check { position: absolute; top: 24px; right: 24px; width: 26px; height: 26px; border-radius: 50%; display: grid; place-items: center; font-size: 13px; color: #fff; background: linear-gradient(135deg, var(--p1), var(--pm)); box-shadow: 0 0 20px -4px var(--glow); opacity: 0; transform: scale(.5); transition: opacity .4s var(--ease), transform .4s var(--ease); }
+.coc-intent.is-active .coc-intent__check { opacity: 1; transform: scale(1); }
+
+/* Form section */
+.coc-formsec { position: relative; }
+.coc-formsec__grid { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: start; }
+.coc-formsec__h { position: sticky; top: 120px; }
+.coc-formsec__h .coc-h2 { margin-bottom: 22px; }
+.coc-formsec__h .coc-lead { margin-bottom: 36px; }
+.coc-formsec__info { display: flex; flex-direction: column; gap: 12px; padding-top: 32px; border-top: 1px solid var(--bor); }
+.coc-formsec__info-row { display: flex; align-items: center; gap: 14px; font-size: 13px; color: var(--mut); font-family: var(--jbm); letter-spacing: .04em; }
+.coc-formsec__info-row b { color: var(--p2); font-weight: 600; }
+
+/* Form */
+.coc-form { padding: 44px 40px; border-radius: 28px; background: linear-gradient(155deg, rgba(16,10,30,.8), rgba(8,5,15,.95)); border: 1px solid var(--bor); position: relative; overflow: hidden; }
+.coc-form::before { content: ''; position: absolute; top: 0; left: 40px; right: 40px; height: 1px; background: linear-gradient(90deg, transparent, var(--pm), transparent); opacity: .7; }
+.coc-field { margin-bottom: 26px; position: relative; }
+.coc-field__lbl { display: flex; align-items: center; justify-content: space-between; font-family: var(--jbm); font-size: 10.5px; letter-spacing: .18em; text-transform: uppercase; color: var(--mut); margin-bottom: 12px; font-weight: 600; }
+.coc-field__lbl span { color: var(--dim); font-weight: 500; }
+.coc-field__input, .coc-field__textarea { width: 100%; padding: 16px 20px; border-radius: 14px; background: rgba(8,5,15,.6); border: 1px solid var(--bor); color: var(--iv); font-family: 'Inter', sans-serif; font-size: 14.5px; outline: none; transition: border-color .35s var(--ease), box-shadow .35s var(--ease), background .35s var(--ease); }
+.coc-field__input::placeholder, .coc-field__textarea::placeholder { color: var(--dim); }
+.coc-field__input:focus, .coc-field__textarea:focus { border-color: var(--p2); background: rgba(16,10,30,.85); box-shadow: 0 0 0 3px rgba(168,85,247,.14), 0 0 30px -8px var(--glow); }
+.coc-field__textarea { resize: vertical; min-height: 140px; font-family: 'Inter', sans-serif; }
+.coc-field__focus-bar { position: absolute; bottom: 0; left: 0; height: 2px; width: 0; background: linear-gradient(90deg, var(--p1), var(--pm)); border-radius: 2px; transition: width .5s var(--ease); box-shadow: 0 0 12px var(--glow); }
+.coc-field__input:focus ~ .coc-field__focus-bar, .coc-field__textarea:focus ~ .coc-field__focus-bar { width: 100%; }
+
+/* Submit */
+.coc-form__submit { position: relative; width: 100%; padding: 18px 32px; border-radius: 100px; overflow: hidden; background: linear-gradient(120deg, var(--p1), var(--pm)); color: #fff; font-family: var(--mnr); font-size: 15px; font-weight: 700; letter-spacing: .02em; cursor: pointer; box-shadow: 0 14px 40px -14px rgba(168,85,247,.85), inset 0 1px 0 rgba(255,255,255,.22); transition: transform .4s var(--ease), box-shadow .4s var(--ease); display: flex; align-items: center; justify-content: center; gap: 10px; margin-top: 10px; }
+.coc-form__submit:hover:not(:disabled) { transform: translateY(-3px); box-shadow: 0 24px 60px -18px rgba(168,85,247,1), 0 0 40px -8px var(--pm-glow); }
+.coc-form__submit:disabled { cursor: not-allowed; opacity: .85; }
+.coc-form__submit__txt { display: block; transition: opacity .35s var(--ease), transform .35s var(--ease); }
+.coc-form__submit.is-loading .coc-form__submit__txt, .coc-form__submit.is-success .coc-form__submit__txt { opacity: 0; transform: translateY(-10px); }
+.coc-form__submit__state { position: absolute; inset: 0; display: grid; place-items: center; font-family: var(--mnr); font-size: 15px; font-weight: 700; letter-spacing: .02em; opacity: 0; transform: translateY(10px); transition: opacity .35s var(--ease), transform .35s var(--ease); }
+.coc-form__submit.is-loading .coc-form__submit__state--load, .coc-form__submit.is-success .coc-form__submit__state--ok { opacity: 1; transform: translateY(0); }
+.coc-form__submit.is-success { background: linear-gradient(120deg, #22C55E, #16A34A); }
+.coc-loaddots { display: inline-flex; gap: 5px; margin-right: 6px; }
+.coc-loaddots i { width: 6px; height: 6px; border-radius: 50%; background: #fff; animation: cocLoadDot 1.2s ease-in-out infinite; }
+.coc-loaddots i:nth-child(2) { animation-delay: .2s; }
+.coc-loaddots i:nth-child(3) { animation-delay: .4s; }
+@keyframes cocLoadDot { 0%, 60%, 100% { opacity: .3; transform: translateY(0); } 30% { opacity: 1; transform: translateY(-4px); } }
+
+/* Direct channels */
+.coc-chan { position: relative; border-top: 1px solid var(--bor); border-bottom: 1px solid var(--bor); background: linear-gradient(180deg, rgba(16,10,30,.4), transparent); }
+.coc-chan__row { display: flex; align-items: center; gap: 32px; padding: 36px 0; border-bottom: 1px solid var(--bor); position: relative; overflow: hidden; transition: background .4s var(--ease); cursor: pointer; }
+.coc-chan__row:last-child { border-bottom: 0; }
+.coc-chan__row::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 0; background: linear-gradient(90deg, rgba(168,85,247,.14), transparent); transition: width .6s var(--ease); }
+.coc-chan__row:hover::before { width: 100%; }
+.coc-chan__lbl { flex: 0 0 160px; font-family: var(--jbm); font-size: 10.5px; letter-spacing: .22em; text-transform: uppercase; color: var(--dim); font-weight: 600; position: relative; z-index: 1; transition: color .4s var(--ease); }
+.coc-chan__row:hover .coc-chan__lbl { color: var(--p2); }
+.coc-chan__val { flex: 1; font-family: var(--mnr); font-size: clamp(1.4rem, 2.8vw, 2rem); font-weight: 600; color: var(--iv); letter-spacing: -.025em; position: relative; z-index: 1; transition: transform .5s var(--ease); }
+.coc-chan__row:hover .coc-chan__val { transform: translateX(12px); }
+.coc-chan__arr { flex-shrink: 0; width: 48px; height: 48px; border-radius: 50%; display: grid; place-items: center; font-size: 18px; color: var(--p2); background: rgba(168,85,247,.08); border: 1px solid var(--bor-2); transition: transform .5s var(--ease), background .35s var(--ease), color .35s var(--ease); position: relative; z-index: 1; }
+.coc-chan__row:hover .coc-chan__arr { background: linear-gradient(135deg, var(--p1), var(--pm)); color: #fff; transform: rotate(45deg); box-shadow: 0 0 30px -6px var(--glow); }
+
+/* Response time */
+.coc-resp__grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0; border-top: 1px solid var(--bor); border-bottom: 1px solid var(--bor); margin-top: 60px; }
+.coc-resp__item { padding: 40px 32px; text-align: center; position: relative; }
+.coc-resp__item + .coc-resp__item::before { content: ''; position: absolute; left: 0; top: 20%; height: 60%; width: 1px; background: linear-gradient(180deg, transparent, var(--bor-2), transparent); }
+.coc-resp__lbl { font-family: var(--jbm); font-size: 10.5px; letter-spacing: .2em; text-transform: uppercase; color: var(--p2); margin-bottom: 14px; font-weight: 600; }
+.coc-resp__val { font-family: var(--mnr); font-size: 1.15rem; font-weight: 500; color: var(--iv); letter-spacing: -.02em; line-height: 1.4; }
+
+/* Signal status */
+.coc-sig { position: relative; padding: 160px 0; overflow: hidden; text-align: center; background: #030106; }
+.coc-sig__grid { position: absolute; inset: 0; background-image: linear-gradient(rgba(168,85,247,.06) 1px, transparent 1px), linear-gradient(90deg, rgba(168,85,247,.06) 1px, transparent 1px); background-size: 48px 48px; -webkit-mask-image: radial-gradient(ellipse 70% 60% at 50% 50%, #000 20%, transparent 75%); mask-image: radial-gradient(ellipse 70% 60% at 50% 50%, #000 20%, transparent 75%); animation: cocGridSlide 40s linear infinite; }
+@keyframes cocGridSlide { to { background-position: 48px 48px, 48px 48px; } }
+.coc-sig__lbl { display: inline-flex; align-items: center; gap: 10px; padding: 8px 18px; border-radius: 100px; margin-bottom: 32px; background: rgba(34,197,94,.08); border: 1px solid rgba(34,197,94,.35); font-family: var(--jbm); font-size: 10.5px; font-weight: 700; letter-spacing: .22em; text-transform: uppercase; color: #86EFAC; position: relative; z-index: 1; }
+.coc-sig__lbl::before { content: ''; width: 7px; height: 7px; border-radius: 50%; background: var(--ok); box-shadow: 0 0 12px var(--ok); animation: cocPulse 1.8s ease-in-out infinite; }
+.coc-sig__t { font-family: var(--mnr); font-size: clamp(2.4rem, 5.5vw, 4.4rem); font-weight: 700; line-height: 1.02; letter-spacing: -.045em; color: var(--iv); margin-bottom: 32px; position: relative; z-index: 1; }
+.coc-sig__t span { background: linear-gradient(120deg, var(--p2), var(--pm)); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; }
+.coc-sig__p { color: var(--mut); font-size: 1rem; max-width: 480px; margin: 0 auto; position: relative; z-index: 1; font-weight: 300; line-height: 1.7; }
+.coc-sig__orb { position: relative; width: 200px; height: 200px; margin: 60px auto 40px; display: grid; place-items: center; z-index: 1; }
+.coc-sig__orb::before, .coc-sig__orb::after { content: ''; position: absolute; inset: 0; border-radius: 50%; border: 1px solid rgba(34,197,94,.35); animation: cocSigRing 3s ease-out infinite; }
+.coc-sig__orb::after { animation-delay: 1.5s; }
+@keyframes cocSigRing { 0% { transform: scale(.6); opacity: .9; } 100% { transform: scale(1.6); opacity: 0; } }
+.coc-sig__core { width: 80px; height: 80px; border-radius: 50%; background: radial-gradient(circle at 35% 35%, #86EFAC, #22C55E 55%, #166534); box-shadow: 0 0 60px rgba(34,197,94,.8), 0 0 120px rgba(34,197,94,.4), inset 0 0 30px rgba(255,255,255,.2); animation: cocSigCore 2s ease-in-out infinite; }
+@keyframes cocSigCore { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.08); } }
+
+/* FAQ */
+.coc-faq__head { text-align: center; margin-bottom: 60px; }
+.coc-faq__list { max-width: 820px; margin: 0 auto; }
+.coc-faq__item { border-bottom: 1px solid var(--bor); }
+.coc-faq__q { width: 100%; display: flex; align-items: center; justify-content: space-between; gap: 24px; padding: 26px 0; text-align: left; cursor: pointer; font-family: var(--mnr); font-size: clamp(1.05rem, 1.8vw, 1.25rem); font-weight: 600; color: var(--iv); letter-spacing: -.02em; transition: color .4s var(--ease); background: none; border: 0; }
+.coc-faq__q:hover { color: var(--p2); }
+.coc-faq__ic { flex-shrink: 0; width: 32px; height: 32px; border-radius: 50%; display: grid; place-items: center; position: relative; background: rgba(168,85,247,.08); border: 1px solid var(--bor-2); transition: transform .5s var(--ease), background .35s var(--ease), border-color .35s var(--ease); }
+.coc-faq__ic::before, .coc-faq__ic::after { content: ''; position: absolute; background: var(--p2); border-radius: 2px; transition: transform .5s var(--ease), background .35s var(--ease); }
+.coc-faq__ic::before { width: 12px; height: 1.5px; }
+.coc-faq__ic::after { width: 1.5px; height: 12px; }
+.coc-faq__item.is-open .coc-faq__ic { background: linear-gradient(135deg, var(--p1), var(--pm)); border-color: transparent; transform: rotate(180deg); }
+.coc-faq__item.is-open .coc-faq__ic::before, .coc-faq__item.is-open .coc-faq__ic::after { background: #fff; }
+.coc-faq__item.is-open .coc-faq__ic::after { transform: scaleY(0); }
+.coc-faq__a { max-height: 0; overflow: hidden; transition: max-height .55s var(--ease), padding .55s var(--ease); }
+.coc-faq__item.is-open .coc-faq__a { max-height: 400px; padding: 0 0 28px; }
+.coc-faq__a p { font-size: 14.5px; line-height: 1.75; color: var(--mut); font-weight: 300; max-width: 680px; }
+
+/* Final CTA */
+.coc-cta { position: relative; padding: 170px 0 100px; text-align: center; overflow: hidden; background: linear-gradient(180deg, #030106 0%, #0B0716 50%, #100822 100%); }
+.coc-cta::before { content: ''; position: absolute; top: 50%; left: 50%; width: 900px; height: 600px; margin: -300px 0 0 -450px; background: radial-gradient(ellipse, rgba(168,85,247,.28), transparent 65%); filter: blur(100px); pointer-events: none; }
+.coc-cta__in { position: relative; z-index: 1; max-width: 900px; margin: 0 auto; }
+.coc-cta__t { font-family: var(--mnr); font-size: clamp(2.4rem, 6vw, 4.6rem); font-weight: 700; line-height: 1.02; letter-spacing: -.045em; color: var(--iv); margin-bottom: 40px; }
+.coc-cta__t span { background: linear-gradient(120deg, var(--p2), var(--pm)); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; }
+.coc-cta__btns { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; margin-bottom: 120px; }
+.coc-cta__trans { display: flex; align-items: center; justify-content: center; gap: 14px; font-family: var(--jbm); font-size: 10.5px; letter-spacing: .24em; text-transform: uppercase; color: var(--dim); font-weight: 500; padding-top: 60px; border-top: 1px solid var(--bor); }
+.coc-cta__trans i { font-style: normal; width: 32px; height: 1px; background: linear-gradient(90deg, transparent, var(--dim)); }
+.coc-cta__trans i:last-child { background: linear-gradient(270deg, transparent, var(--dim)); }
+
+/* Responsive */
+@media (max-width: 1080px) {
+    .coc-hero__in { grid-template-columns: 1fr; gap: 60px; }
+    .coc-hero__portal { max-width: 460px; margin: 0 auto; }
+    .coc-intent__grid { grid-template-columns: 1fr; gap: 18px; }
+    .coc-formsec__grid { grid-template-columns: 1fr; gap: 50px; }
+    .coc-formsec__h { position: static; }
+    .coc-resp__grid { grid-template-columns: 1fr; gap: 0; }
+    .coc-resp__item { border-bottom: 1px solid var(--bor); }
+    .coc-resp__item:last-child { border-bottom: 0; }
+    .coc-resp__item + .coc-resp__item::before { display: none; }
+}
+@media (max-width: 640px) {
+    .coc-c { padding: 0 20px; }
+    .coc-sec { padding: 80px 0; }
+    .coc-hero { padding: 100px 0 70px; min-height: auto; }
+    .coc-hero__btns { flex-direction: column; }
+    .coc-hero__btns .coc-btn { width: 100%; }
+    .coc-orb__label { font-size: 9px; padding: 5px 11px; }
+    .coc-intent { padding: 36px 28px; }
+    .coc-intent__t { font-size: 1.35rem; }
+    .coc-form { padding: 32px 24px; border-radius: 22px; }
+    .coc-formsec__info { padding-top: 24px; }
+    .coc-chan__row { flex-direction: column; align-items: flex-start; gap: 14px; padding: 28px 0; }
+    .coc-chan__lbl { flex: auto; }
+    .coc-chan__val { font-size: 1.3rem; }
+    .coc-chan__arr { display: none; }
+    .coc-sig { padding: 100px 0; }
+    .coc-faq__q { padding: 22px 0; }
+    .coc-cta { padding: 110px 0 70px; }
+    .coc-cta__btns { flex-direction: column; margin-bottom: 80px; }
+    .coc-cta__btns .coc-btn { width: 100%; }
+}
+@media (prefers-reduced-motion: reduce) {
+    .coc * { animation-duration: .01ms !important; transition-duration: .01ms !important; }
+    .coc-r { opacity: 1; transform: none; }
+}
+</style>
+
+<!-- Hero -->
+<section class="coc-hero">
+    <div class="coc-hero__bg" aria-hidden="true">
+        <div class="coc-hero__grid"></div>
+    </div>
+    <div class="coc-c">
+        <div class="coc-hero__in">
+            <div>
+                <div class="coc-hero__status coc-r">// Contact.CourseCraft — Channel: Open</div>
+                <h1 class="coc-h1 coc-r" style="--d:100ms">
+                    Let's make something<br>
+                    <span style="background:linear-gradient(120deg,var(--p2),var(--pm));-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;">worth learning.</span>
+                </h1>
+                <p class="coc-hero__sub coc-r" style="--d:200ms">
+                    Questions, ideas, feedback, partnerships, or just something you want to say — we're listening.
+                </p>
+                <div class="coc-hero__btns coc-r" style="--d:300ms">
+                    <a href="#cocForm" class="coc-btn coc-btn--pri">Start a Conversation <span class="coc-arr">→</span></a>
+                    <a href="/courses/" class="coc-btn coc-btn--ghost">Explore Courses</a>
+                </div>
+            </div>
+            <div class="coc-hero__portal coc-r" style="--d:250ms">
+                <div class="coc-orb" id="cocOrb"></div>
+                <div class="coc-orb__ring"></div>
+                <span class="coc-orb__label coc-orb__label--1">◉ ONLINE</span>
+                <span class="coc-orb__label coc-orb__label--2">◉ READY</span>
+                <span class="coc-orb__label coc-orb__label--3">◉ LISTENING</span>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Intent cards -->
+<section class="coc-sec" id="cocIntent">
+    <div class="coc-c">
+        <div class="coc-intent__head">
+            <span class="coc-eye coc-r">What Brought You Here?</span>
+            <h2 class="coc-h2 coc-r" style="--d:80ms">Tell us <span>what's on your mind.</span></h2>
+        </div>
+        <div class="coc-intent__grid">
+            <div class="coc-intent coc-r coc-tilt" data-intent="General Question">
+                <span class="coc-intent__check">✓</span>
+                <div class="coc-intent__ic">💬</div>
+                <h3 class="coc-intent__t">General Question</h3>
+                <p class="coc-intent__d">Something you're curious about? Ask away.</p>
+            </div>
+            <div class="coc-intent coc-r coc-tilt" style="--d:100ms" data-intent="Report a Problem">
+                <span class="coc-intent__check">✓</span>
+                <div class="coc-intent__ic">🐛</div>
+                <h3 class="coc-intent__t">Report a Problem</h3>
+                <p class="coc-intent__d">Found something that doesn't feel right? Let us know.</p>
+            </div>
+            <div class="coc-intent coc-r coc-tilt" style="--d:200ms" data-intent="Partnership">
+                <span class="coc-intent__check">✓</span>
+                <div class="coc-intent__ic">🤝</div>
+                <h3 class="coc-intent__t">Partnership</h3>
+                <p class="coc-intent__d">Have an idea worth building together? Let's talk.</p>
+            </div>
+            <div class="coc-intent coc-r coc-tilt" style="--d:300ms" data-intent="Feedback">
+                <span class="coc-intent__check">✓</span>
+                <div class="coc-intent__ic">💡</div>
+                <h3 class="coc-intent__t">Feedback</h3>
+                <p class="coc-intent__d">Tell us how we can make CourseCraft better.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Contact form -->
+<section class="coc-sec coc-formsec" id="cocForm">
+    <div class="coc-c">
+        <div class="coc-formsec__grid">
+            <div class="coc-formsec__h">
+                <span class="coc-eye coc-r">The Real Deal</span>
+                <h2 class="coc-h2 coc-r" style="--d:80ms">Start the <span>conversation.</span></h2>
+                <p class="coc-lead coc-r" style="--d:160ms">
+                    No bots. No auto-replies. Your message lands directly with us — and we actually read every single one.
+                </p>
+                <div class="coc-formsec__info coc-r" style="--d:240ms">
+                    <div class="coc-formsec__info-row"><b>◆</b> Average response: 24–48 hours</div>
+                    <div class="coc-formsec__info-row"><b>◆</b> All messages read by a human</div>
+                    <div class="coc-formsec__info-row"><b>◆</b> Your data is never shared</div>
+                </div>
+            </div>
+            <form class="coc-form coc-r" style="--d:160ms" id="cocFormEl" novalidate>
+                <div class="coc-field">
+                    <label class="coc-field__lbl" for="cocName">What should we call you? <span>01</span></label>
+                    <input type="text" class="coc-field__input" id="cocName" name="name" placeholder="Your name" required>
+                    <span class="coc-field__focus-bar"></span>
+                </div>
+                <div class="coc-field">
+                    <label class="coc-field__lbl" for="cocEmail">Where can we reach you? <span>02</span></label>
+                    <input type="email" class="coc-field__input" id="cocEmail" name="email" placeholder="you@example.com" required>
+                    <span class="coc-field__focus-bar"></span>
+                </div>
+                <div class="coc-field">
+                    <label class="coc-field__lbl" for="cocMsg">What's on your mind? <span>03</span></label>
+                    <textarea class="coc-field__textarea" id="cocMsg" name="message" placeholder="Tell us everything..." required></textarea>
+                    <span class="coc-field__focus-bar"></span>
+                </div>
+                <button type="submit" class="coc-form__submit" id="cocSubmit">
+                    <span class="coc-form__submit__txt">SEND MESSAGE →</span>
+                    <span class="coc-form__submit__state coc-form__submit__state--load">
+                        <span class="coc-loaddots"><i></i><i></i><i></i></span> TRANSMITTING
+                    </span>
+                    <span class="coc-form__submit__state coc-form__submit__state--ok">MESSAGE RECEIVED ✓</span>
+                </button>
+            </form>
+        </div>
+    </div>
+</section>
+
+<!-- Direct channels -->
+<section class="coc-sec coc-chan" style="padding:0">
+    <div class="coc-c" style="padding-top:60px;padding-bottom:30px">
+        <span class="coc-eye coc-r">Direct Channels</span>
+    </div>
+    <div class="coc-c" style="padding-top:0;padding-bottom:60px">
+        <a href="mailto:hello@coursecraft.com" class="coc-chan__row coc-r">
+            <span class="coc-chan__lbl">EMAIL</span>
+            <span class="coc-chan__val">hello@coursecraft.com</span>
+            <span class="coc-chan__arr">↗</span>
+        </a>
+        <a href="mailto:support@coursecraft.com" class="coc-chan__row coc-r" style="--d:80ms">
+            <span class="coc-chan__lbl">SUPPORT</span>
+            <span class="coc-chan__val">support@coursecraft.com</span>
+            <span class="coc-chan__arr">↗</span>
+        </a>
+        <a href="https://x.com/shahtechx" target="_blank" rel="noopener" class="coc-chan__row coc-r" style="--d:160ms">
+            <span class="coc-chan__lbl">SOCIAL</span>
+            <span class="coc-chan__val">@coursecraft</span>
+            <span class="coc-chan__arr">↗</span>
+        </a>
+        <a href="/community/" class="coc-chan__row coc-r" style="--d:240ms">
+            <span class="coc-chan__lbl">COMMUNITY</span>
+            <span class="coc-chan__val">Join the network</span>
+            <span class="coc-chan__arr">↗</span>
+        </a>
+    </div>
+</section>
+
+<!-- Response time -->
+<section class="coc-sec" style="padding-top:60px;padding-bottom:60px">
+    <div class="coc-c">
+        <div style="text-align:center">
+            <span class="coc-eye coc-r">Response Time</span>
+            <h2 class="coc-h2 coc-r" style="--d:80ms">We don't leave people <span>hanging.</span></h2>
+        </div>
+        <div class="coc-resp__grid">
+            <div class="coc-resp__item coc-r">
+                <div class="coc-resp__lbl">GENERAL QUESTIONS</div>
+                <div class="coc-resp__val">Usually within 24–48 hours</div>
+            </div>
+            <div class="coc-resp__item coc-r" style="--d:100ms">
+                <div class="coc-resp__lbl">TECHNICAL ISSUES</div>
+                <div class="coc-resp__val">As soon as possible</div>
+            </div>
+            <div class="coc-resp__item coc-r" style="--d:200ms">
+                <div class="coc-resp__lbl">PARTNERSHIPS</div>
+                <div class="coc-resp__val">We'll get back to you personally</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Signal status -->
+<section class="coc-sig">
+    <div class="coc-sig__grid" aria-hidden="true"></div>
+    <div class="coc-c">
+        <span class="coc-sig__lbl coc-r">● Connection Established</span>
+        <h2 class="coc-sig__t coc-r" style="--d:100ms">CourseCraft<br><span>is listening.</span></h2>
+        <div class="coc-sig__orb coc-r" style="--d:200ms">
+            <div class="coc-sig__core"></div>
+        </div>
+        <p class="coc-sig__p coc-r" style="--d:300ms">
+            Your message doesn't disappear into a void. Every word reaches us — and every reply is written by a human.
+        </p>
+    </div>
+</section>
+
+<!-- FAQ -->
+<section class="coc-sec">
+    <div class="coc-c">
+        <div class="coc-faq__head">
+            <span class="coc-eye coc-r">Before You Send</span>
+            <h2 class="coc-h2 coc-r" style="--d:80ms">A few things <span>people ask.</span></h2>
+        </div>
+        <div class="coc-faq__list">
+            <div class="coc-faq__item coc-r">
+                <button class="coc-faq__q" type="button">
+                    <span>How quickly will you respond?</span>
+                    <span class="coc-faq__ic"></span>
+                </button>
+                <div class="coc-faq__a">
+                    <p>Most messages get a reply within 24–48 hours. Technical issues are usually handled the same day. If you don't hear back within 3 days, feel free to send a follow-up — sometimes things get buried.</p>
+                </div>
+            </div>
+            <div class="coc-faq__item coc-r" style="--d:80ms">
+                <button class="coc-faq__q" type="button">
+                    <span>I found a bug. Where should I report it?</span>
+                    <span class="coc-faq__ic"></span>
+                </button>
+                <div class="coc-faq__a">
+                    <p>Select "Report a Problem" in the intent section above, or email us directly at support@coursecraft.com. Please include what you were doing, what you expected, and any screenshots if possible — it helps us fix things faster.</p>
+                </div>
+            </div>
+            <div class="coc-faq__item coc-r" style="--d:160ms">
+                <button class="coc-faq__q" type="button">
+                    <span>Can I collaborate with CourseCraft?</span>
+                    <span class="coc-faq__ic"></span>
+                </button>
+                <div class="coc-faq__a">
+                    <p>Absolutely. We're always open to partnerships with educators, companies, and creators. Select "Partnership" above and tell us what you're thinking — we'll get back to you personally.</p>
+                </div>
+            </div>
+            <div class="coc-faq__item coc-r" style="--d:240ms">
+                <button class="coc-faq__q" type="button">
+                    <span>Can I suggest a course?</span>
+                    <span class="coc-faq__ic"></span>
+                </button>
+                <div class="coc-faq__a">
+                    <p>Yes — and we love it when you do. Send us your suggestions through the form. We review every request and often build courses based on what our students actually ask for.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Final CTA -->
+<section class="coc-cta">
+    <div class="coc-c">
+        <div class="coc-cta__in">
+            <h2 class="coc-cta__t coc-r">
+                No question is too small.<br>
+                <span>No idea is too crazy.</span>
+            </h2>
+            <div class="coc-cta__btns coc-r" style="--d:100ms">
+                <a href="#cocForm" class="coc-btn coc-btn--pri">Talk to CourseCraft <span class="coc-arr">→</span></a>
+                <a href="/courses/" class="coc-btn coc-btn--ghost">Explore Courses</a>
+            </div>
+            <div class="coc-cta__trans coc-r" style="--d:200ms">
+                <i></i> // END OF TRANSMISSION <i></i>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script>
+(function() {
+    var root = document.getElementById('cocRoot');
+    if (!root || root.dataset.init === '1') return;
+    root.dataset.init = '1';
+    var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    var isMobile = window.matchMedia('(max-width: 720px)').matches;
+
+    // Reveal on scroll
+    if ('IntersectionObserver' in window && !reduce) {
+        var io = new IntersectionObserver(function(entries) {
+            entries.forEach(function(entry) {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('is-in');
+                    io.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.14, rootMargin: '0px 0px -60px 0px' });
+        root.querySelectorAll('.coc-r').forEach(function(el) { io.observe(el); });
+    } else {
+        root.querySelectorAll('.coc-r').forEach(function(el) { el.classList.add('is-in'); });
+    }
+
+    // Hero orb reacts to mouse
+    var orb = document.getElementById('cocOrb');
+    if (orb && !reduce && !isMobile && window.matchMedia('(hover:hover)').matches) {
+        var portal = orb.parentElement;
+        var orbRaf = null;
+        portal.addEventListener('mousemove', function(e) {
+            if (orbRaf) return;
+            orbRaf = requestAnimationFrame(function() {
+                var rect = portal.getBoundingClientRect();
+                var px = (e.clientX - rect.left) / rect.width - 0.5;
+                var py = (e.clientY - rect.top) / rect.height - 0.5;
+                orb.style.transform = 'translate(' + (px * 24) + 'px,' + (py * 24) + 'px)';
+                orbRaf = null;
+            });
+        }, { passive: true });
+        portal.addEventListener('mouseleave', function() { orb.style.transform = ''; });
+    }
+
+    // Intent cards
+    var intents = root.querySelectorAll('.coc-intent');
+    intents.forEach(function(card) {
+        card.addEventListener('click', function() {
+            intents.forEach(function(x) { x.classList.remove('is-active'); });
+            card.classList.add('is-active');
+            var intentVal = card.dataset.intent || '';
+            var formEl = document.getElementById('cocFormEl');
+            if (formEl) {
+                var existing = formEl.querySelector('input[name="intent"]');
+                if (existing) existing.value = intentVal;
+                else {
+                    var input = document.createElement('input');
+                    input.type = 'hidden';
+                    input.name = 'intent';
+                    input.value = intentVal;
+                    formEl.appendChild(input);
+                }
+            }
+            var target = document.getElementById('cocForm');
+            if (target) {
+                var top = target.getBoundingClientRect().top + window.scrollY - 80;
+                window.scrollTo({ top: top, behavior: reduce ? 'auto' : 'smooth' });
+            }
+        });
+    });
+
+    // 3D tilt on intent cards
+    if (!reduce && !isMobile && window.matchMedia('(hover:hover)').matches) {
+        root.querySelectorAll('.coc-tilt').forEach(function(card) {
+            var tiltRaf = null;
+            card.addEventListener('mousemove', function(e) {
+                if (tiltRaf) return;
+                tiltRaf = requestAnimationFrame(function() {
+                    var rect = card.getBoundingClientRect();
+                    var px = (e.clientX - rect.left) / rect.width - 0.5;
+                    var py = (e.clientY - rect.top) / rect.height - 0.5;
+                    card.style.transform = 'perspective(1200px) rotateY(' + (px * 5) + 'deg) rotateX(' + (-py * 5) + 'deg) translateY(-8px)';
+                    tiltRaf = null;
+                });
+            }, { passive: true });
+            card.addEventListener('mouseleave', function() {
+                if (tiltRaf) { cancelAnimationFrame(tiltRaf); tiltRaf = null; }
+                card.style.transform = '';
+            });
+        });
+    }
+
+    // FAQ accordion
+    root.querySelectorAll('.coc-faq__q').forEach(function(btn) {
+        btn.addEventListener('click', function() {
+            var item = btn.parentElement;
+            var wasOpen = item.classList.contains('is-open');
+            root.querySelectorAll('.coc-faq__item').forEach(function(x) { x.classList.remove('is-open'); });
+            if (!wasOpen) item.classList.add('is-open');
+        });
+    });
+
+    // Contact form submit
+    var formEl = document.getElementById('cocFormEl');
+    var submitBtn = document.getElementById('cocSubmit');
+    if (formEl && submitBtn) {
+        formEl.addEventListener('submit', function(e) {
+            e.preventDefault();
+            var nameField = document.getElementById('cocName');
+            var emailField = document.getElementById('cocEmail');
+            var msgField = document.getElementById('cocMsg');
+            var name = nameField.value.trim();
+            var email = emailField.value.trim();
+            var msg = msgField.value.trim();
+
+            if (!name || !email || !msg) {
+                [nameField, emailField, msgField].forEach(function(f) {
+                    if (!f.value.trim()) {
+                        f.style.borderColor = '#FF5F73';
+                        setTimeout(function() { f.style.borderColor = ''; }, 1400);
+                    }
+                });
+                return;
+            }
+
+            submitBtn.classList.add('is-loading');
+            submitBtn.disabled = true;
+
+            // Replace this timeout with a real AJAX call if needed
+            setTimeout(function() {
+                submitBtn.classList.remove('is-loading');
+                submitBtn.classList.add('is-success');
+                formEl.reset();
+                setTimeout(function() {
+                    submitBtn.classList.remove('is-success');
+                    submitBtn.disabled = false;
+                }, 3000);
+            }, 1800);
+        });
+    }
+})();
+</script>
+</div>

@@ -1,0 +1,627 @@
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Manrope:wght@500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+<div class="cnh" id="cnhRoot">
+<style>
+.cnh {
+    --bg: #0A0416; --bg-2: #120826;
+    --surf: #1E1040; --surf-2: #281656;
+    --bor: #3D1F6E; --bor-2: #5C33A8;
+    --p1: #A855F7; --p2: #C084FC; --p3: #D8B4FE; --pv: #9333EA; --pm: #F472B6;
+    --iv: #FFFFFF; --soft: #E0D5F5; --mut: #9F8CBE; --dim: #6B578A;
+    --glow: rgba(168,85,247,.55);
+    --grad-1: #A855F7; --grad-2: #C084FC; --grad-3: #F472B6;
+    --pm-glow: rgba(244,114,182,.5);
+    --ease: cubic-bezier(.22,1,.36,1);
+    position: sticky; top: 0; z-index: 9999;
+    background: rgba(10,4,22,.82);
+    -webkit-backdrop-filter: blur(20px) saturate(200%);
+    backdrop-filter: blur(20px) saturate(200%);
+    border-bottom: 1px solid transparent;
+    font-family: 'Inter', system-ui, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    transition: background .35s var(--ease), border-color .35s var(--ease);
+}
+.cnh[data-theme="ocean"] {
+    --bg: #02111E; --bg-2: #031B30; --surf: #0A2E4A; --surf-2: #0E3D5E;
+    --bor: #155E85; --bor-2: #1E8AB8;
+    --p1: #22D3EE; --p2: #67E8F9; --p3: #A5F3FC; --pv: #0891B2; --pm: #0EA5E9;
+    --iv: #FFFFFF; --soft: #CFFAFE; --mut: #88B6CE; --dim: #4D7A96;
+    --glow: rgba(34,211,238,.6);
+    --grad-1: #0891B2; --grad-2: #22D3EE; --grad-3: #0EA5E9;
+    --pm-glow: rgba(14,165,233,.55);
+}
+.cnh[data-theme="ember"] {
+    --bg: #1A0805; --bg-2: #260C08; --surf: #3D1310; --surf-2: #521B18;
+    --bor: #7A2822; --bor-2: #B84439;
+    --p1: #FB923C; --p2: #FDBA74; --p3: #FED7AA; --pv: #EA580C; --pm: #F43F5E;
+    --iv: #FFFFFF; --soft: #FED7AA; --mut: #C9958A; --dim: #8A5248;
+    --glow: rgba(251,146,60,.6);
+    --grad-1: #EA580C; --grad-2: #FB923C; --grad-3: #F43F5E;
+    --pm-glow: rgba(244,63,94,.55);
+}
+.cnh[data-theme="ocean"].is-stuck { background: rgba(2,17,30,.96); }
+.cnh[data-theme="ember"].is-stuck { background: rgba(26,8,5,.96); }
+.cnh *, .cnh *::before, .cnh *::after { box-sizing: border-box; margin: 0; padding: 0; }
+.cnh a { color: inherit; text-decoration: none; }
+.cnh button { font: inherit; border: 0; background: none; cursor: pointer; color: inherit; }
+.cnh.is-stuck { background: rgba(10,4,22,.96); border-bottom-color: var(--bor); }
+.cnh.is-stuck .cnh__bar { padding: 10px 32px; }
+
+.cnh__prog { position: absolute; top: 0; left: 0; height: 2px; width: 0; background: linear-gradient(90deg, var(--p1), var(--pm)); box-shadow: 0 0 12px var(--glow), 0 0 24px var(--glow); z-index: 20; transition: width .1s linear; }
+
+.cnh__bar { max-width: 1440px; margin: 0 auto; padding: 14px 32px; display: flex; align-items: center; gap: 20px; transition: padding .35s var(--ease); }
+
+/* Logo */
+.cnh__logo { display: flex; align-items: center; gap: 11px; flex-shrink: 0; transition: transform .35s var(--ease); }
+.cnh__logo:hover { transform: translateY(-1px); }
+.cnh__logo-mark { width: 42px; height: 42px; border-radius: 12px; display: grid; place-items: center; background: radial-gradient(circle at 30% 30%, var(--p3), var(--pv) 50%, var(--surf)); box-shadow: 0 0 26px var(--glow), inset 0 0 14px rgba(255,255,255,.15); font-family: 'Manrope', sans-serif; font-weight: 800; font-size: 15px; color: #fff; letter-spacing: -.06em; position: relative; overflow: hidden; transition: box-shadow .35s var(--ease); }
+.cnh__logo-mark::before { content: ''; position: absolute; inset: -40%; border-radius: 50%; background: conic-gradient(from 0deg, transparent, var(--pm), transparent 30%); animation: cnhSpin 5s linear infinite; opacity: .55; -webkit-mask: radial-gradient(circle, transparent 40%, #000 60%); mask: radial-gradient(circle, transparent 40%, #000 60%); }
+@keyframes cnhSpin { to { transform: rotate(360deg); } }
+.cnh__logo:hover .cnh__logo-mark { box-shadow: 0 0 34px var(--pm-glow), inset 0 0 18px rgba(255,255,255,.2); }
+.cnh__logo-mark span { position: relative; z-index: 1; }
+.cnh__logo-text { font-family: 'Manrope', sans-serif; font-size: 19px; font-weight: 800; letter-spacing: -.03em; color: var(--iv); line-height: 1; white-space: nowrap; }
+.cnh__logo-text em { font-style: normal; background: linear-gradient(120deg, var(--p3), var(--p1) 50%, var(--pm)); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; }
+.cnh__live { display: inline-flex; align-items: center; gap: 5px; padding: 4px 10px; border-radius: 100px; margin-left: 4px; font-family: 'JetBrains Mono', monospace; font-size: 9.5px; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; background: rgba(239,68,68,.15); border: 1px solid rgba(239,68,68,.5); color: #FCA5A5; }
+.cnh__live::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: #EF4444; box-shadow: 0 0 10px #EF4444; animation: cnhPulse 1.4s ease-in-out infinite; }
+@keyframes cnhPulse { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: .5; transform: scale(.7); } }
+
+/* Nav */
+.cnh__nav { display: flex; align-items: center; gap: 2px; flex: 1; justify-content: center; position: relative; }
+.cnh__nav-item { position: relative; }
+.cnh__nav-link { position: relative; display: inline-flex; align-items: center; gap: 5px; padding: 10px 16px; border-radius: 100px; font-size: 13.5px; font-weight: 500; color: var(--soft); cursor: pointer; transition: color .3s var(--ease), background .3s var(--ease); }
+.cnh__nav-link:hover { color: var(--iv); background: var(--glow); }
+.cnh__nav-link::after { content: ''; position: absolute; left: 50%; bottom: 4px; width: 0; height: 1.5px; border-radius: 2px; background: linear-gradient(90deg, var(--p2), var(--pm)); transform: translateX(-50%); transition: width .4s var(--ease); box-shadow: 0 0 10px var(--glow); }
+.cnh__nav-link:hover::after { width: 20px; }
+.cnh__nav-item.is-active .cnh__nav-link { color: var(--p2); }
+.cnh__nav-item.is-active .cnh__nav-link::after { width: 20px; }
+.cnh__nav-arrow { font-size: 9px; opacity: .6; transition: transform .4s var(--ease), opacity .3s var(--ease), color .3s var(--ease); }
+.cnh__nav-item.has-drop:hover .cnh__nav-arrow { transform: rotate(180deg); opacity: 1; color: var(--p2); }
+
+/* Mega menu */
+.cnh__drop { position: absolute; top: calc(100% + 14px); left: 50%; width: min(900px, calc(100vw - 56px)); padding: 26px; border-radius: 20px; background: linear-gradient(155deg, var(--surf), var(--bg-2)); border: 1px solid var(--bor-2); box-shadow: 0 30px 80px -24px rgba(0,0,0,.95), 0 0 60px -30px var(--glow); opacity: 0; visibility: hidden; pointer-events: none; transform: translate(-50%, 10px); transition: opacity .3s var(--ease), transform .35s var(--ease), visibility .3s; z-index: 100; }
+.cnh__drop::before { content: ''; position: absolute; top: -14px; left: 0; right: 0; height: 14px; }
+.cnh__nav-item.has-drop:hover .cnh__drop { opacity: 1; visibility: visible; pointer-events: auto; transform: translate(-50%, 0); }
+.cnh__drop::after { content: ''; position: absolute; top: -1px; left: 24px; right: 24px; height: 1px; background: linear-gradient(90deg, transparent, var(--pm), transparent); }
+.cnh__drop-grid { display: grid; grid-template-columns: 1fr 1.15fr 1.35fr; gap: 24px; }
+.cnh__drop-col-title { font-family: 'JetBrains Mono', monospace; font-size: 9.5px; font-weight: 600; letter-spacing: .22em; text-transform: uppercase; color: var(--dim); margin-bottom: 12px; padding-left: 10px; position: relative; }
+.cnh__drop-col-title::before { content: ''; position: absolute; left: 0; top: 50%; width: 5px; height: 5px; border-radius: 50%; background: var(--p2); transform: translateY(-50%); box-shadow: 0 0 10px var(--glow); }
+.cnh__drop-list { display: flex; flex-direction: column; gap: 2px; }
+.cnh__drop-list a { display: flex; align-items: center; gap: 10px; padding: 8px 10px; border-radius: 9px; font-size: 13px; color: var(--soft); transition: all .3s var(--ease); position: relative; }
+.cnh__drop-list a::before { content: ''; position: absolute; left: 0; top: 50%; width: 2px; height: 0; background: var(--p2); border-radius: 2px; transform: translateY(-50%); box-shadow: 0 0 10px var(--glow); transition: height .3s var(--ease); }
+.cnh__drop-list a:hover { background: var(--glow); color: var(--iv); padding-left: 16px; }
+.cnh__drop-list a:hover::before { height: 50%; }
+.cnh__drop-ico { font-size: 14px; width: 18px; display: inline-grid; place-items: center; transition: transform .35s var(--ease); }
+.cnh__drop-list a:hover .cnh__drop-ico { transform: scale(1.15) rotate(-6deg); }
+.cnh__drop-feat { display: block; padding: 14px; border-radius: 14px; background: linear-gradient(150deg, var(--glow), var(--bg-2)); border: 1px solid var(--bor); position: relative; overflow: hidden; transition: all .4s var(--ease); }
+.cnh__drop-feat:hover { border-color: var(--p2); transform: translateY(-3px); box-shadow: 0 16px 36px -14px var(--glow); }
+.cnh__drop-feat-tag { display: inline-block; padding: 3px 9px; border-radius: 100px; font-family: 'JetBrains Mono', monospace; font-size: 9px; font-weight: 600; letter-spacing: .14em; text-transform: uppercase; color: var(--p2); background: var(--glow); border: 1px solid var(--p2); margin-bottom: 9px; position: relative; z-index: 1; }
+.cnh__drop-feat-tag--coral { color: var(--iv); background: var(--pm-glow); border-color: var(--pm); }
+.cnh__drop-feat-title { font-family: 'Manrope', sans-serif; font-size: 14px; font-weight: 700; color: var(--iv); line-height: 1.3; margin-bottom: 6px; letter-spacing: -.015em; }
+.cnh__drop-feat-meta { display: flex; gap: 12px; font-family: 'JetBrains Mono', monospace; font-size: 10.5px; color: var(--mut); }
+.cnh__drop-feat-meta b { color: var(--p2); font-weight: 600; }
+
+/* Actions */
+.cnh__actions { display: flex; align-items: center; gap: 6px; flex-shrink: 0; }
+.cnh__guest { display: none; align-items: center; gap: 8px; }
+body:not(.logged-in) .cnh__guest { display: flex; }
+body.logged-in .cnh__guest { display: none !important; }
+.cnh__auth { display: none; align-items: center; gap: 6px; }
+body.logged-in .cnh__auth { display: flex !important; }
+body:not(.logged-in) .cnh__auth { display: none !important; }
+
+.cnh__xp { display: inline-flex; align-items: center; gap: 7px; padding: 6px 11px; border-radius: 100px; background: linear-gradient(135deg, var(--glow), transparent); border: 1px solid var(--p2); cursor: pointer; transition: all .3s var(--ease); }
+.cnh__xp:hover { transform: translateY(-2px); box-shadow: 0 8px 20px -8px var(--glow); }
+.cnh__xp-ico { font-size: 14px; filter: drop-shadow(0 0 6px var(--pm-glow)); }
+.cnh__xp-txt { font-family: 'JetBrains Mono', monospace; font-size: 10.5px; font-weight: 700; color: var(--p2); letter-spacing: .04em; }
+.cnh__xp-lvl { font-family: 'Manrope', sans-serif; font-size: 11px; font-weight: 800; color: var(--iv); padding: 1px 6px; border-radius: 100px; background: var(--p2); }
+
+.cnh__streak { display: inline-flex; align-items: center; gap: 5px; padding: 6px 10px; border-radius: 100px; background: linear-gradient(135deg, rgba(251,146,60,.15), transparent); border: 1px solid rgba(251,146,60,.45); font-family: 'JetBrains Mono', monospace; font-size: 10.5px; font-weight: 700; color: #FDBA74; cursor: pointer; transition: all .3s var(--ease); }
+.cnh__streak:hover { transform: translateY(-2px); box-shadow: 0 8px 20px -8px rgba(251,146,60,.6); }
+.cnh__streak-ico { font-size: 13px; animation: cnhFlame 1.6s ease-in-out infinite; }
+@keyframes cnhFlame { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.15); } }
+
+.cnh__icon { width: 38px; height: 38px; border-radius: 10px; display: grid; place-items: center; background: var(--glow); border: 1px solid var(--bor); color: var(--mut); font-size: 15px; cursor: pointer; transition: all .3s var(--ease); position: relative; }
+.cnh__icon:hover { color: var(--p2); border-color: var(--p2); transform: translateY(-2px); }
+.cnh__icon-badge { position: absolute; top: -4px; right: -4px; min-width: 18px; height: 18px; padding: 0 5px; border-radius: 100px; background: var(--grad-1); color: #fff; font-family: 'JetBrains Mono', monospace; font-size: 10px; font-weight: 700; display: grid; place-items: center; line-height: 1; box-shadow: 0 0 10px var(--glow); }
+
+.cnh__searchbtn { display: inline-flex; align-items: center; gap: 8px; padding: 9px 14px; border-radius: 100px; background: var(--glow); border: 1px solid var(--bor); color: var(--mut); font-size: 12.5px; cursor: pointer; transition: all .3s var(--ease); }
+.cnh__searchbtn:hover { border-color: var(--p2); color: var(--p2); transform: translateY(-2px); }
+.cnh__searchbtn kbd { font-family: 'JetBrains Mono', monospace; font-size: 10px; padding: 2px 6px; border-radius: 5px; background: var(--surf); border: 1px solid var(--bor); color: var(--mut); font-weight: 600; }
+
+.cnh__login { padding: 9px 18px; border-radius: 100px; font-size: 13px; font-weight: 600; color: var(--iv); border: 1px solid var(--bor-2); background: transparent; transition: all .3s var(--ease); }
+.cnh__login:hover { border-color: var(--p2); color: var(--p2); background: var(--glow); transform: translateY(-1px); }
+
+.cnh__cta { position: relative; display: inline-flex; align-items: center; gap: 8px; padding: 11px 22px; border-radius: 100px; font-family: 'Manrope', sans-serif; font-size: 13px; font-weight: 700; color: #fff; overflow: hidden; background: linear-gradient(120deg, var(--grad-1), var(--grad-3)); box-shadow: 0 8px 24px -8px var(--glow), inset 0 1px 0 rgba(255,255,255,.25); transition: transform .35s var(--ease), box-shadow .35s var(--ease); isolation: isolate; }
+.cnh__cta::before { content: ''; position: absolute; inset: 0; background: linear-gradient(120deg, var(--grad-3), var(--pm)); transform: translateY(101%); transition: transform .5s var(--ease); z-index: -1; border-radius: inherit; }
+.cnh__cta:hover { transform: translateY(-2px); box-shadow: 0 14px 36px -12px var(--glow), 0 0 30px var(--glow); }
+.cnh__cta:hover::before { transform: translateY(0); }
+.cnh__cta__inner { position: relative; display: block; overflow: hidden; height: 17px; line-height: 17px; }
+.cnh__cta__t { display: block; transition: transform .45s var(--ease); }
+.cnh__cta__t--b { position: absolute; top: 0; left: 0; width: 100%; transform: translateY(120%); }
+.cnh__cta:hover .cnh__cta__t--a { transform: translateY(-120%); }
+.cnh__cta:hover .cnh__cta__t--b { transform: translateY(0); }
+.cnh__cta-arrow { display: inline-block; transition: transform .35s var(--ease); }
+.cnh__cta:hover .cnh__cta-arrow { transform: translateX(4px); }
+
+/* User */
+.cnh__user { position: relative; }
+.cnh__avatar { width: 38px; height: 38px; border-radius: 50%; cursor: pointer; background: radial-gradient(circle at 30% 30%, var(--p3), var(--pv) 60%, var(--surf)); display: grid; place-items: center; font-family: 'Manrope', sans-serif; font-size: 13px; font-weight: 800; color: #fff; box-shadow: 0 0 16px var(--glow); transition: all .3s var(--ease); position: relative; }
+.cnh__avatar:hover { transform: scale(1.08); }
+.cnh__avatar-status { position: absolute; bottom: 0; right: 0; width: 10px; height: 10px; border-radius: 50%; background: #22C55E; border: 2px solid var(--bg); box-shadow: 0 0 8px #22C55E; }
+.cnh__usermenu { position: absolute; top: calc(100% + 12px); right: 0; width: 280px; padding: 10px; border-radius: 16px; background: linear-gradient(155deg, var(--surf), var(--bg-2)); border: 1px solid var(--bor-2); box-shadow: 0 30px 60px -20px rgba(0,0,0,.95), 0 0 40px -20px var(--glow); opacity: 0; visibility: hidden; pointer-events: none; transform: translateY(8px); transition: all .3s var(--ease); z-index: 200; }
+.cnh__user:hover .cnh__usermenu, .cnh__usermenu.is-open { opacity: 1; visibility: visible; pointer-events: auto; transform: translateY(0); }
+.cnh__usermenu::before { content: ''; position: absolute; top: -12px; right: 20px; width: 0; height: 0; border: 6px solid transparent; border-bottom-color: var(--bor-2); }
+.cnh__usermenu-head { display: flex; align-items: center; gap: 12px; padding: 12px; border-radius: 12px; background: var(--glow); margin-bottom: 8px; }
+.cnh__usermenu-head-av { width: 42px; height: 42px; border-radius: 50%; background: radial-gradient(circle at 30% 30%, var(--p3), var(--pv) 60%, var(--surf)); display: grid; place-items: center; font-family: 'Manrope', sans-serif; font-size: 14px; font-weight: 800; color: #fff; flex-shrink: 0; }
+.cnh__usermenu-name { font-family: 'Manrope', sans-serif; font-size: 13.5px; font-weight: 700; color: var(--iv); margin-bottom: 2px; }
+.cnh__usermenu-role { font-size: 11px; color: var(--mut); font-family: 'JetBrains Mono', monospace; letter-spacing: .05em; }
+.cnh__usermenu-list { display: flex; flex-direction: column; gap: 1px; }
+.cnh__usermenu-list a { display: flex; align-items: center; gap: 11px; padding: 10px 12px; border-radius: 10px; font-size: 13px; color: var(--soft); transition: all .25s var(--ease); }
+.cnh__usermenu-list a:hover { background: var(--glow); color: var(--iv); padding-left: 16px; }
+.cnh__usermenu-list a i { font-style: normal; font-size: 15px; width: 20px; display: inline-grid; place-items: center; color: var(--p2); }
+.cnh__usermenu-sep { height: 1px; background: var(--bor); margin: 6px 4px; }
+.cnh__usermenu-list a.is-danger { color: #F87171; }
+.cnh__usermenu-list a.is-danger i { color: #F87171; }
+
+/* Notifications */
+.cnh__notifwrap { position: relative; }
+.cnh__notif { position: absolute; top: calc(100% + 12px); right: 0; width: 340px; padding: 0; border-radius: 18px; overflow: hidden; background: linear-gradient(155deg, var(--surf), var(--bg-2)); border: 1px solid var(--bor-2); box-shadow: 0 30px 60px -20px rgba(0,0,0,.95), 0 0 40px -20px var(--glow); opacity: 0; visibility: hidden; pointer-events: none; transform: translateY(8px); transition: all .3s var(--ease); z-index: 200; }
+.cnh__notifwrap:hover .cnh__notif, .cnh__notif.is-open { opacity: 1; visibility: visible; pointer-events: auto; transform: translateY(0); }
+.cnh__notif::before { content: ''; position: absolute; top: -12px; right: 20px; width: 0; height: 0; border: 6px solid transparent; border-bottom-color: var(--bor-2); }
+.cnh__notif-head { display: flex; align-items: center; justify-content: space-between; padding: 14px 16px; border-bottom: 1px solid var(--bor); }
+.cnh__notif-head h4 { font-family: 'Manrope', sans-serif; font-size: 13px; font-weight: 700; color: var(--iv); display: flex; align-items: center; gap: 8px; }
+.cnh__notif-head h4 span { font-family: 'JetBrains Mono', monospace; font-size: 9.5px; padding: 2px 7px; border-radius: 100px; background: var(--pm-glow); color: var(--iv); font-weight: 700; }
+.cnh__notif-head a { font-size: 11px; color: var(--p2); font-family: 'JetBrains Mono', monospace; }
+.cnh__notif-list { max-height: 340px; overflow-y: auto; }
+.cnh__notif-item { display: flex; gap: 11px; padding: 12px 14px; border-bottom: 1px solid var(--bor); cursor: pointer; transition: background .25s var(--ease); }
+.cnh__notif-item:hover { background: var(--glow); }
+.cnh__notif-item:last-child { border-bottom: 0; }
+.cnh__notif-ico { width: 34px; height: 34px; border-radius: 10px; display: grid; place-items: center; font-size: 15px; flex-shrink: 0; background: var(--glow); border: 1px solid var(--p2); }
+.cnh__notif-txt { flex: 1; min-width: 0; }
+.cnh__notif-txt p { font-size: 12.5px; color: var(--soft); line-height: 1.5; margin-bottom: 3px; }
+.cnh__notif-txt p b { color: var(--p2); font-weight: 600; }
+.cnh__notif-time { font-family: 'JetBrains Mono', monospace; font-size: 10px; color: var(--dim); }
+.cnh__notif-item.is-new::after { content: ''; width: 7px; height: 7px; border-radius: 50%; background: var(--pm); align-self: center; box-shadow: 0 0 8px var(--pm); flex-shrink: 0; }
+
+/* Command palette */
+.cnh__cmd { position: fixed; inset: 0; z-index: 99999; display: flex; align-items: flex-start; justify-content: center; padding-top: 12vh; background: rgba(0,0,0,.7); -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px); opacity: 0; visibility: hidden; pointer-events: none; transition: opacity .3s var(--ease), visibility .3s; }
+.cnh__cmd.is-open { opacity: 1; visibility: visible; pointer-events: auto; }
+.cnh__cmd-panel { width: min(600px, calc(100vw - 40px)); border-radius: 18px; overflow: hidden; background: linear-gradient(155deg, var(--surf), var(--bg-2)); border: 1px solid var(--bor-2); box-shadow: 0 40px 100px -30px rgba(0,0,0,.95), 0 0 80px -30px var(--glow); transform: scale(.95) translateY(-10px); transition: transform .35s var(--ease); }
+.cnh__cmd.is-open .cnh__cmd-panel { transform: scale(1) translateY(0); }
+.cnh__cmd-search { display: flex; align-items: center; gap: 12px; padding: 16px 20px; border-bottom: 1px solid var(--bor); }
+.cnh__cmd-search-ico { font-size: 18px; color: var(--p2); }
+.cnh__cmd-input { flex: 1; background: transparent; border: 0; outline: none; color: var(--iv); font-family: 'Inter', sans-serif; font-size: 15px; }
+.cnh__cmd-input::placeholder { color: var(--dim); }
+.cnh__cmd-kbd { font-family: 'JetBrains Mono', monospace; font-size: 10px; padding: 3px 7px; border-radius: 6px; background: var(--glow); border: 1px solid var(--bor); color: var(--mut); font-weight: 600; }
+.cnh__cmd-body { max-height: 380px; overflow-y: auto; padding: 8px; }
+.cnh__cmd-sec { font-family: 'JetBrains Mono', monospace; font-size: 9.5px; letter-spacing: .22em; text-transform: uppercase; color: var(--dim); padding: 10px 12px 6px; font-weight: 600; }
+.cnh__cmd-item { display: flex; align-items: center; gap: 12px; padding: 10px 12px; border-radius: 10px; cursor: pointer; transition: all .2s var(--ease); }
+.cnh__cmd-item:hover { background: var(--glow); }
+.cnh__cmd-item-ico { width: 32px; height: 32px; border-radius: 9px; display: grid; place-items: center; font-size: 14px; flex-shrink: 0; background: var(--glow); border: 1px solid var(--bor); }
+.cnh__cmd-item-txt { flex: 1; }
+.cnh__cmd-item-txt strong { display: block; font-size: 13px; color: var(--iv); font-weight: 600; margin-bottom: 2px; }
+.cnh__cmd-item-txt span { font-size: 11px; color: var(--mut); }
+.cnh__cmd-item-arr { font-size: 12px; color: var(--dim); opacity: 0; transition: opacity .2s var(--ease); }
+.cnh__cmd-item:hover .cnh__cmd-item-arr { opacity: 1; color: var(--p2); }
+
+/* Burger */
+.cnh__burger { display: none; width: 40px; height: 40px; border-radius: 11px; border: 1px solid var(--bor); background: var(--glow); flex-direction: column; align-items: center; justify-content: center; gap: 4px; transition: border-color .3s var(--ease); }
+.cnh__burger:hover { border-color: var(--p2); }
+.cnh__burger span { width: 16px; height: 2px; border-radius: 2px; background: var(--iv); transition: transform .4s var(--ease), opacity .3s var(--ease), background .3s var(--ease); }
+.cnh__burger.is-open span:nth-child(1) { transform: translateY(6px) rotate(45deg); background: var(--p2); }
+.cnh__burger.is-open span:nth-child(2) { opacity: 0; }
+.cnh__burger.is-open span:nth-child(3) { transform: translateY(-6px) rotate(-45deg); background: var(--p2); }
+
+/* Mobile menu */
+.cnh__mobile { display: none; flex-direction: column; gap: 2px; padding: 16px 20px 24px; border-top: 1px solid var(--bor); background: var(--bg); max-height: calc(100vh - 80px); overflow-y: auto; }
+.cnh__mobile.is-open { display: flex; animation: cnhSlide .35s var(--ease); }
+@keyframes cnhSlide { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
+.cnh__mobile a { padding: 13px 14px; border-radius: 10px; font-size: 14.5px; font-weight: 500; color: var(--soft); transition: all .3s var(--ease); }
+.cnh__mobile a:hover { background: var(--glow); color: var(--p2); padding-left: 20px; }
+.cnh__mobile-sub { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: .2em; text-transform: uppercase; color: var(--dim); padding: 14px 14px 6px; margin-top: 8px; }
+.cnh__mobile .cnh__cta, .cnh__mobile .cnh__login { width: 100%; justify-content: center; margin-top: 6px; padding: 13px 22px; text-align: center; }
+body:not(.logged-in) .cnh__mobile .cnh__mobile-auth { display: none !important; }
+body.logged-in .cnh__mobile .cnh__mobile-guest { display: none !important; }
+
+/* Responsive */
+@media (max-width: 1280px) {
+    .cnh__xp-txt, .cnh__streak-txt { display: none; }
+    .cnh__xp, .cnh__streak { padding: 6px 8px; }
+}
+@media (max-width: 1080px) {
+    .cnh__nav { display: none; }
+    .cnh__searchbtn, .cnh__user, .cnh__notifwrap, .cnh__xp, .cnh__streak { display: none; }
+    .cnh__burger { display: flex; }
+}
+@media (max-width: 720px) {
+    .cnh__bar { padding: 11px 18px; gap: 12px; }
+    .cnh.is-stuck .cnh__bar { padding: 8px 18px; }
+    .cnh__logo-mark { width: 38px; height: 38px; font-size: 14px; border-radius: 10px; }
+    .cnh__logo-text { font-size: 17px; }
+    .cnh__live { display: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+    .cnh * { animation-duration: .01ms !important; transition-duration: .01ms !important; }
+}
+</style>
+
+<div class="cnh__prog" id="cnhProg"></div>
+
+<div class="cnh__bar">
+    <a href="/" class="cnh__logo" aria-label="CourseCraft Home">
+        <div class="cnh__logo-mark"><span>CN</span></div>
+        <div class="cnh__logo-text">Course<em>Craft</em></div>
+        <span class="cnh__live">Live</span>
+    </a>
+
+    <nav class="cnh__nav" aria-label="Main Navigation">
+        <div class="cnh__nav-item is-active">
+            <a href="/" class="cnh__nav-link">Home</a>
+        </div>
+
+        <div class="cnh__nav-item has-drop">
+            <a href="/courses/" class="cnh__nav-link">Courses <span class="cnh__nav-arrow">▼</span></a>
+            <div class="cnh__drop">
+                <div class="cnh__drop-grid">
+                    <div>
+                        <div class="cnh__drop-col-title">Categories</div>
+                        <div class="cnh__drop-list">
+                            <a href="/courses/full-stack-web-development-bootcamp/"><span class="cnh__drop-ico">⚡</span> Web Dev</a>
+                            <a href="/courses/uiux-design-mastery/"><span class="cnh__drop-ico">🎨</span> UI/UX Design</a>
+                            <a href="/courses/data-science-foundations/"><span class="cnh__drop-ico">📊</span> Data Science</a>
+                            <a href="/courses/data-science-foundations/"><span class="cnh__drop-ico">🧠</span> AI &amp; ML</a>
+                            <a href="/courses/cloud-devops-engineering/"><span class="cnh__drop-ico">☁️</span> Cloud &amp; DevOps</a>
+                            <a href="/courses/flutter-mobile-app-development/"><span class="cnh__drop-ico">📱</span> Mobile</a>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="cnh__drop-col-title">Popular Courses</div>
+                        <div class="cnh__drop-list">
+                            <a href="/courses/full-stack-web-development-bootcamp/"><span class="cnh__drop-ico">🔥</span> Full-Stack Web Dev</a>
+                            <a href="/courses/uiux-design-mastery/"><span class="cnh__drop-ico">🎯</span> UI/UX Mastery</a>
+                            <a href="/courses/data-science-foundations/"><span class="cnh__drop-ico">📈</span> Data Science &amp; AI</a>
+                            <a href="/courses/python-for-data-science/"><span class="cnh__drop-ico">🐍</span> Python for Automation</a>
+                            <a href="/courses/flutter-mobile-app-development/"><span class="cnh__drop-ico">💚</span> Flutter Mobile Apps</a>
+                            <a href="/courses/cloud-devops-engineering/"><span class="cnh__drop-ico">🚀</span> Cloud &amp; DevOps</a>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="cnh__drop-col-title">Featured</div>
+                        <a href="/courses/full-stack-web-development-bootcamp/" class="cnh__drop-feat">
+                            <span class="cnh__drop-feat-tag">Bestseller</span>
+                            <div class="cnh__drop-feat-title">Full-Stack Web Development Bootcamp</div>
+                            <div class="cnh__drop-feat-meta">
+                                <span>⏱ 12 Weeks</span>
+                                <span>Rs 24,999</span>
+                            </div>
+                        </a>
+                        <a href="/courses/data-science-foundations/" class="cnh__drop-feat" style="margin-top:8px">
+                            <span class="cnh__drop-feat-tag cnh__drop-feat-tag--coral">New</span>
+                            <div class="cnh__drop-feat-title">Data Science &amp; AI Foundations</div>
+                            <div class="cnh__drop-feat-meta">
+                                <span>⏱ 16 Weeks</span>
+                                <span>Rs 34,999</span>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="cnh__nav-item"><a href="/instructors/" class="cnh__nav-link">Instructors</a></div>
+        <div class="cnh__nav-item"><a href="/about/" class="cnh__nav-link">About</a></div>
+        <div class="cnh__nav-item"><a href="/contact/" class="cnh__nav-link">Contact</a></div>
+    </nav>
+
+    <div class="cnh__actions">
+        <button class="cnh__searchbtn" id="cnhCmdBtn" aria-label="Search">
+            🔍 <kbd>⌘K</kbd>
+        </button>
+
+        <div class="cnh__guest">
+            <a href="/tutor-login/" class="cnh__login">Log In</a>
+            <a href="/student-registration/" class="cnh__cta">
+                <span class="cnh__cta__inner">
+                    <span class="cnh__cta__t cnh__cta__t--a">Get Started <span class="cnh__cta-arrow">→</span></span>
+                    <span class="cnh__cta__t cnh__cta__t--b">Get Started <span class="cnh__cta-arrow">→</span></span>
+                </span>
+            </a>
+        </div>
+
+        <div class="cnh__auth">
+            <div class="cnh__xp" title="Your Level and XP">
+                <span class="cnh__xp-ico">⚡</span>
+                <span class="cnh__xp-txt" id="cnhXPTxt">0 XP</span>
+                <span class="cnh__xp-lvl" id="cnhXPLvl">Lv 1</span>
+            </div>
+
+            <div class="cnh__streak" title="Learning streak">
+                <span class="cnh__streak-ico">🔥</span>
+                <span class="cnh__streak-txt" id="cnhStreakTxt">0</span>
+            </div>
+
+            <div class="cnh__notifwrap">
+                <button class="cnh__icon" id="cnhNotifBtn" aria-label="Notifications">
+                    🔔
+                    <span class="cnh__icon-badge">3</span>
+                </button>
+                <div class="cnh__notif" id="cnhNotif">
+                    <div class="cnh__notif-head">
+                        <h4>Notifications <span>3 NEW</span></h4>
+                        <a href="/notifications/">View all</a>
+                    </div>
+                    <div class="cnh__notif-list">
+                        <div class="cnh__notif-item is-new">
+                            <div class="cnh__notif-ico">🎓</div>
+                            <div class="cnh__notif-txt">
+                                <p>Module 6 unlocked in Full-Stack Bootcamp</p>
+                                <span class="cnh__notif-time">12 minutes ago</span>
+                            </div>
+                        </div>
+                        <div class="cnh__notif-item is-new">
+                            <div class="cnh__notif-ico">🏆</div>
+                            <div class="cnh__notif-txt">
+                                <p>You earned the 7-Day Streak badge</p>
+                                <span class="cnh__notif-time">2 hours ago</span>
+                            </div>
+                        </div>
+                        <div class="cnh__notif-item is-new">
+                            <div class="cnh__notif-ico">💬</div>
+                            <div class="cnh__notif-txt">
+                                <p>Ahmad Raza replied to your question</p>
+                                <span class="cnh__notif-time">5 hours ago</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="cnh__user">
+                <div class="cnh__avatar">
+                    <span id="cnhUserInitials">U</span>
+                    <span class="cnh__avatar-status"></span>
+                </div>
+                <div class="cnh__usermenu">
+                    <div class="cnh__usermenu-head">
+                        <div class="cnh__usermenu-head-av" id="cnhUserHeadInitials">U</div>
+                        <div>
+                            <div class="cnh__usermenu-name" id="cnhUserName">My Account</div>
+                            <div class="cnh__usermenu-role" id="cnhUserRole">Member</div>
+                        </div>
+                    </div>
+                    <div class="cnh__usermenu-list">
+                        <a href="/dashboard/">🏠 Dashboard</a>
+                        <a href="/dashboard/my-courses/">📚 My Learning</a>
+                        <a href="/certificates/">🏆 Certificates</a>
+                        <a href="/achievements/">⚡ Achievements</a>
+                        <a href="/wishlist/">♡ Wishlist</a>
+                        <div class="cnh__usermenu-sep"></div>
+                        <a href="/profile/">👤 Profile</a>
+                        <a href="/settings/">⚙️ Settings</a>
+                        <div class="cnh__usermenu-sep"></div>
+                        <a href="/logout/" class="is-danger">↗ Log Out</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <button class="cnh__burger" id="cnhBurger" aria-label="Toggle menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+    </button>
+</div>
+
+<div class="cnh__mobile" id="cnhMobile">
+    <a href="/">Home</a>
+    <a href="/courses/">Courses</a>
+    <div class="cnh__mobile-sub">Categories</div>
+    <a href="/courses/full-stack-web-development-bootcamp/">⚡ Web Development</a>
+    <a href="/courses/uiux-design-mastery/">🎨 UI/UX Design</a>
+    <a href="/courses/data-science-foundations/">📊 Data Science &amp; AI</a>
+    <a href="/courses/cloud-devops-engineering/">☁️ Cloud &amp; DevOps</a>
+    <a href="/courses/flutter-mobile-app-development/">📱 Mobile Apps</a>
+    <a href="/courses/python-for-data-science/">🐍 Python</a>
+
+    <div class="cnh__mobile-guest">
+        <div class="cnh__mobile-sub">Account</div>
+        <a href="/tutor-login/" class="cnh__login">Log In</a>
+        <a href="/student-registration/" class="cnh__cta">
+            <span class="cnh__cta__inner">
+                <span class="cnh__cta__t cnh__cta__t--a">Get Started →</span>
+                <span class="cnh__cta__t cnh__cta__t--b">Get Started →</span>
+            </span>
+        </a>
+    </div>
+
+    <div class="cnh__mobile-auth">
+        <div class="cnh__mobile-sub">Student</div>
+        <a href="/dashboard/">🏠 Dashboard</a>
+        <a href="/dashboard/my-courses/">📚 My Learning</a>
+        <a href="/certificates/">🏆 Certificates</a>
+        <a href="/achievements/">⚡ Achievements</a>
+        <a href="/wishlist/">♡ Wishlist</a>
+        <div class="cnh__mobile-sub">Company</div>
+        <a href="/instructors/">Instructors</a>
+        <a href="/about/">About</a>
+        <a href="/contact/">Contact</a>
+        <a href="/logout/" class="cnh__login">Log Out</a>
+    </div>
+</div>
+
+<div class="cnh__cmd" id="cnhCmd">
+    <div class="cnh__cmd-panel">
+        <div class="cnh__cmd-search">
+            <span class="cnh__cmd-search-ico">🔍</span>
+            <input type="text" class="cnh__cmd-input" id="cnhCmdInput" placeholder="Search courses, lessons, instructors...">
+            <kbd class="cnh__cmd-kbd">ESC</kbd>
+        </div>
+        <div class="cnh__cmd-body">
+            <div class="cnh__cmd-sec">Popular</div>
+            <a href="/courses/full-stack-web-development-bootcamp/" class="cnh__cmd-item">
+                <span class="cnh__cmd-item-ico">⚡</span>
+                <div class="cnh__cmd-item-txt">
+                    <strong>Full-Stack Web Development</strong>
+                    <span>12 weeks · Bestseller</span>
+                </div>
+                <span class="cnh__cmd-item-arr">↵</span>
+            </a>
+            <a href="/courses/uiux-design-mastery/" class="cnh__cmd-item">
+                <span class="cnh__cmd-item-ico">🎨</span>
+                <div class="cnh__cmd-item-txt">
+                    <strong>UI/UX Design Mastery</strong>
+                    <span>8 weeks · Popular</span>
+                </div>
+                <span class="cnh__cmd-item-arr">↵</span>
+            </a>
+            <div class="cnh__cmd-sec">Quick Actions</div>
+            <a href="/courses/" class="cnh__cmd-item">
+                <span class="cnh__cmd-item-ico">📚</span>
+                <div class="cnh__cmd-item-txt">
+                    <strong>Browse All Courses</strong>
+                    <span>180+ premium courses</span>
+                </div>
+                <span class="cnh__cmd-item-arr">↵</span>
+            </a>
+            <a href="/instructor-registration/" class="cnh__cmd-item">
+                <span class="cnh__cmd-item-ico">👨‍🏫</span>
+                <div class="cnh__cmd-item-txt">
+                    <strong>Become an Instructor</strong>
+                    <span>Share your expertise</span>
+                </div>
+                <span class="cnh__cmd-item-arr">↵</span>
+            </a>
+            <div class="cnh__cmd-sec">Popular</div>
+            <a href="/courses/data-science-foundations/" class="cnh__cmd-item">
+                <span class="cnh__cmd-item-ico">📊</span>
+                <div class="cnh__cmd-item-txt">
+                    <strong>Data Science &amp; AI Foundations</strong>
+                    <span>16 weeks · 24,000+ students</span>
+                </div>
+                <span class="cnh__cmd-item-arr">↵</span>
+            </a>
+            <a href="/courses/python-for-data-science/" class="cnh__cmd-item">
+                <span class="cnh__cmd-item-ico">🐍</span>
+                <div class="cnh__cmd-item-txt">
+                    <strong>Python for Automation</strong>
+                    <span>8 weeks · Bestseller</span>
+                </div>
+                <span class="cnh__cmd-item-arr">↵</span>
+            </a>
+        </div>
+    </div>
+</div>
+
+<script>
+(function() {
+    var root = document.getElementById('cnhRoot');
+    if (!root || root.dataset.init === '1') return;
+    root.dataset.init = '1';
+
+    // Theme sync
+    function syncTheme() {
+        try {
+            var t = localStorage.getItem('cnf-theme') || 'purple';
+            root.setAttribute('data-theme', t);
+        } catch (e) {}
+    }
+    syncTheme();
+    window.addEventListener('storage', function(e) {
+        if (e.key === 'cnf-theme') syncTheme();
+    });
+
+    // Sticky + progress
+    var prog = document.getElementById('cnhProg');
+    var scrollRaf = null;
+    function onScroll() {
+        if (scrollRaf) return;
+        scrollRaf = requestAnimationFrame(function() {
+            var sy = window.scrollY;
+            root.classList.toggle('is-stuck', sy > 20);
+            var h = document.documentElement.scrollHeight - window.innerHeight;
+            if (prog) prog.style.width = Math.min(h > 0 ? (sy / h) * 100 : 0, 100) + '%';
+            scrollRaf = null;
+        });
+    }
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
+
+    // Mobile menu
+    var burger = document.getElementById('cnhBurger');
+    var mobile = document.getElementById('cnhMobile');
+    if (burger && mobile) {
+        burger.addEventListener('click', function() {
+            var open = mobile.classList.toggle('is-open');
+            burger.classList.toggle('is-open', open);
+            burger.setAttribute('aria-expanded', open ? 'true' : 'false');
+        });
+    }
+
+    // Command palette
+    var cmd = document.getElementById('cnhCmd');
+    var cmdBtn = document.getElementById('cnhCmdBtn');
+    var cmdInput = document.getElementById('cnhCmdInput');
+    if (cmd && cmdInput) {
+        function openCmd() { cmd.classList.add('is-open'); setTimeout(function() { cmdInput.focus(); }, 200); }
+        function closeCmd() { cmd.classList.remove('is-open'); cmdInput.value = ''; }
+        if (cmdBtn) cmdBtn.addEventListener('click', openCmd);
+        cmd.addEventListener('click', function(e) { if (e.target === cmd) closeCmd(); });
+        document.addEventListener('keydown', function(e) {
+            if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k') {
+                e.preventDefault(); openCmd();
+            }
+            if (e.key === 'Escape') closeCmd();
+        });
+    }
+
+    // Notification toggle (touch devices)
+    var notifBtn = document.getElementById('cnhNotifBtn');
+    var notif = document.getElementById('cnhNotif');
+    if (notifBtn && notif) {
+        notifBtn.addEventListener('click', function(e) {
+            e.stopPropagation();
+            notif.classList.toggle('is-open');
+        });
+        document.addEventListener('click', function() { notif.classList.remove('is-open'); });
+    }
+
+    // Active link
+    var path = window.location.pathname;
+    root.querySelectorAll('.cnh__nav-item').forEach(function(item) {
+        var link = item.querySelector('.cnh__nav-link');
+        if (!link) return;
+        var href = link.getAttribute('href');
+        if (!href || href === '/') return;
+        var clean = href.replace(/\/$/, '');
+        if (clean && path.indexOf(clean) === 0) {
+            root.querySelectorAll('.cnh__nav-item').forEach(function(x) { x.classList.remove('is-active'); });
+            item.classList.add('is-active');
+        }
+    });
+
+    // Populate user data from window.CC_USER (set by WordPress)
+    function populateUser() {
+        if (!window.CC_USER || !window.CC_USER.isLoggedIn) return;
+        var u = window.CC_USER;
+        var els = {
+            name: document.getElementById('cnhUserName'),
+            role: document.getElementById('cnhUserRole'),
+            init1: document.getElementById('cnhUserInitials'),
+            init2: document.getElementById('cnhUserHeadInitials'),
+            xpTxt: document.getElementById('cnhXPTxt'),
+            xpLvl: document.getElementById('cnhXPLvl'),
+            streak: document.getElementById('cnhStreakTxt')
+        };
+        if (els.name) els.name.textContent = u.name || 'My Account';
+        if (els.role) els.role.textContent = 'Level ' + (u.level || 1) + ' · ' + (u.xp || 0).toLocaleString('en-US') + ' XP';
+        if (els.init1) els.init1.textContent = u.initials || 'U';
+        if (els.init2) els.init2.textContent = u.initials || 'U';
+        if (els.xpTxt) els.xpTxt.textContent = (u.xp || 0).toLocaleString('en-US') + ' XP';
+        if (els.xpLvl) els.xpLvl.textContent = 'Lv ' + (u.level || 1);
+        if (els.streak) els.streak.textContent = u.streak || 0;
+    }
+    populateUser();
+    setTimeout(populateUser, 500);
+    setTimeout(populateUser, 1500);
+})();
+</script>
+</div>

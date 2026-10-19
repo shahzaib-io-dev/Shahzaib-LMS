@@ -1,0 +1,711 @@
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;600;700;800&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<div class="cab" id="cabRoot">
+<style>
+.cab {
+    --bg: #05030A; --bg-2: #0B0616;
+    --surf: #17102A; --surf-2: #1E1538;
+    --bor: rgba(196,132,252,.14); --bor-2: rgba(196,132,252,.28);
+    --p1: #A855F7; --p2: #C084FC; --p3: #D8B4FE; --pm: #F472B6;
+    --iv: #F8F7FF; --soft: #C9C4D6; --mut: #8F899F; --dim: #5A5468;
+    --glow: rgba(168,85,247,.5); --pm-glow: rgba(244,114,182,.35);
+    --ease: cubic-bezier(.22,1,.36,1);
+    background: var(--bg); color: var(--soft);
+    font-family: 'Inter', system-ui, sans-serif;
+    line-height: 1.6; position: relative;
+    -webkit-font-smoothing: antialiased; overflow-x: clip;
+}
+.cab *, .cab *::before, .cab *::after { box-sizing: border-box; margin: 0; padding: 0; }
+.cab a { color: inherit; text-decoration: none; }
+.cab button { font: inherit; border: 0; background: none; cursor: pointer; color: inherit; }
+.cab img { max-width: 100%; display: block; }
+.cab ::selection { background: var(--p1); color: #fff; }
+
+.cab-c { max-width: 1240px; margin: 0 auto; padding: 0 32px; position: relative; z-index: 2; }
+.cab-sec { padding: 130px 0; position: relative; z-index: 1; }
+
+/* Typography */
+.cab-eye { display: inline-flex; align-items: center; gap: 12px; font-family: 'JetBrains Mono', monospace; font-size: 10.5px; letter-spacing: .32em; text-transform: uppercase; color: var(--p2); margin-bottom: 24px; font-weight: 600; }
+.cab-eye::before { content: ''; width: 32px; height: 1px; background: linear-gradient(90deg, transparent, var(--p2)); }
+.cab-h1 { font-family: 'Manrope', sans-serif; font-size: clamp(2.6rem, 6vw, 5.2rem); font-weight: 700; line-height: 1.02; letter-spacing: -.045em; color: var(--iv); }
+.cab-h1 span { display: block; color: var(--mut); font-weight: 500; }
+.cab-h2 { font-family: 'Manrope', sans-serif; font-size: clamp(2rem, 4.2vw, 3.4rem); font-weight: 700; line-height: 1.06; letter-spacing: -.035em; color: var(--iv); }
+.cab-h2 span { background: linear-gradient(120deg, var(--p2), var(--pm)); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; }
+.cab-lead { color: var(--mut); font-size: 1.15rem; max-width: 720px; line-height: 1.72; font-weight: 300; letter-spacing: -.005em; }
+
+/* Reveal */
+.cab-r { opacity: 0; transform: translateY(30px); transition: opacity 1s var(--ease), transform 1s var(--ease); transition-delay: var(--d, 0ms); }
+.cab-r.is-in { opacity: 1; transform: translateY(0); }
+
+/* Hero */
+.cab-hero { min-height: 100vh; padding: 160px 0 100px; display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden; text-align: center; }
+.cab-hero__bg { position: absolute; inset: 0; pointer-events: none; z-index: 0; }
+.cab-hero__bg::before { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse 80% 60% at 50% 40%, rgba(124,58,237,.28), transparent 65%), radial-gradient(ellipse 60% 50% at 50% 80%, rgba(244,114,182,.15), transparent 60%); }
+.cab-hero__orb { position: absolute; top: 50%; left: 50%; width: 900px; height: 900px; margin: -450px 0 0 -450px; border-radius: 50%; background: radial-gradient(circle, rgba(168,85,247,.35), transparent 65%); filter: blur(100px); animation: cabOrbPulse 8s ease-in-out infinite; }
+@keyframes cabOrbPulse { 0%, 100% { transform: scale(1); opacity: .7; } 50% { transform: scale(1.15); opacity: 1; } }
+.cab-hero__sphere { position: absolute; top: 50%; left: 50%; width: 320px; height: 320px; margin: -160px 0 0 -160px; border-radius: 50%; background: radial-gradient(circle at 30% 30%, rgba(216,180,254,.9), rgba(168,85,247,.6) 45%, rgba(30,16,64,.95) 75%); box-shadow: 0 0 100px rgba(168,85,247,.65), 0 0 200px rgba(244,114,182,.35), inset 0 0 60px rgba(255,255,255,.15); opacity: .35; animation: cabSphereFloat 10s ease-in-out infinite; }
+@keyframes cabSphereFloat { 0%, 100% { transform: translate(0, 0) scale(1); } 50% { transform: translate(20px, -20px) scale(1.05); } }
+.cab-hero__ptc { position: absolute; border-radius: 50%; background: var(--p3); box-shadow: 0 0 8px var(--p3); pointer-events: none; }
+.cab-hero__ptc--1 { width: 4px; height: 4px; top: 22%; left: 15%; animation: cabDrift1 18s ease-in-out infinite; }
+.cab-hero__ptc--2 { width: 3px; height: 3px; top: 65%; left: 78%; background: var(--pm); box-shadow: 0 0 8px var(--pm); animation: cabDrift2 22s ease-in-out infinite; }
+.cab-hero__ptc--3 { width: 5px; height: 5px; top: 35%; right: 12%; animation: cabDrift3 25s ease-in-out infinite; }
+.cab-hero__ptc--4 { width: 3px; height: 3px; bottom: 18%; left: 28%; background: var(--pm); box-shadow: 0 0 8px var(--pm); animation: cabDrift1 20s ease-in-out infinite reverse; }
+.cab-hero__ptc--5 { width: 4px; height: 4px; top: 78%; right: 22%; animation: cabDrift2 24s ease-in-out infinite reverse; }
+@keyframes cabDrift1 { 0%, 100% { transform: translate(0, 0); opacity: .6; } 50% { transform: translate(80px, -120px); opacity: 1; } }
+@keyframes cabDrift2 { 0%, 100% { transform: translate(0, 0); opacity: .5; } 50% { transform: translate(-100px, 80px); opacity: 1; } }
+@keyframes cabDrift3 { 0%, 100% { transform: translate(0, 0); opacity: .7; } 50% { transform: translate(60px, 140px); opacity: .3; } }
+.cab-hero__in { position: relative; z-index: 1; width: 100%; }
+.cab-hero__badge { display: inline-flex; align-items: center; gap: 10px; padding: 9px 18px; border-radius: 100px; margin-bottom: 36px; background: rgba(196,132,252,.06); border: 1px solid rgba(196,132,252,.22); font-family: 'JetBrains Mono', monospace; font-size: 10.5px; font-weight: 600; letter-spacing: .22em; text-transform: uppercase; color: var(--p2); backdrop-filter: blur(10px); }
+.cab-hero__badge::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: #22C55E; box-shadow: 0 0 10px #22C55E; animation: cabDot 2s ease-in-out infinite; }
+@keyframes cabDot { 0%, 100% { opacity: 1; } 50% { opacity: .35; } }
+.cab-hero .cab-h1 { max-width: 1000px; margin: 0 auto 32px; text-shadow: 0 0 60px rgba(168,85,247,.35); }
+.cab-hero .cab-lead { margin: 0 auto 40px; text-align: center; }
+.cab-hero .cab-lead b { color: var(--soft); font-weight: 500; }
+.cab-hero__status { display: inline-flex; align-items: center; gap: 10px; font-family: 'JetBrains Mono', monospace; font-size: 10.5px; letter-spacing: .24em; text-transform: uppercase; color: var(--dim); font-weight: 500; }
+.cab-hero__status i { font-style: normal; width: 32px; height: 1px; background: linear-gradient(90deg, var(--dim), transparent); }
+
+/* Origin */
+.cab-origin { padding: 160px 0 130px; position: relative; }
+.cab-origin__h { max-width: 800px; margin-bottom: 100px; }
+.cab-origin__h .cab-h2 { margin-bottom: 32px; }
+.cab-origin__txt { max-width: 600px; font-size: 1.1rem; line-height: 1.85; color: var(--mut); font-weight: 300; margin-bottom: 24px; letter-spacing: -.005em; }
+.cab-origin__txt b { color: var(--soft); font-weight: 500; }
+
+/* Timeline */
+.cab-tl { margin-top: 100px; max-width: 820px; position: relative; padding-left: 60px; }
+.cab-tl::before { content: ''; position: absolute; left: 15px; top: 20px; bottom: 20px; width: 2px; background: linear-gradient(180deg, transparent 0%, rgba(168,85,247,.15) 5%, rgba(168,85,247,.4) 50%, rgba(244,114,182,.15) 95%, transparent 100%); border-radius: 2px; }
+.cab-tl__item { position: relative; padding: 0 0 80px; }
+.cab-tl__item:last-child { padding-bottom: 0; }
+.cab-tl__item::before { content: ''; position: absolute; left: -52px; top: 6px; width: 14px; height: 14px; border-radius: 50%; background: var(--dim); border: 3px solid var(--bg); transition: background .8s var(--ease), box-shadow .8s var(--ease); }
+.cab-tl__item.is-in::before { background: linear-gradient(135deg, var(--p1), var(--pm)); box-shadow: 0 0 20px var(--glow), 0 0 40px var(--pm-glow); }
+.cab-tl__yr { display: inline-block; font-family: 'JetBrains Mono', monospace; font-size: 12px; font-weight: 700; letter-spacing: .18em; color: var(--p2); margin-bottom: 14px; }
+.cab-tl__t { font-family: 'Manrope', sans-serif; font-size: clamp(1.6rem, 2.8vw, 2.2rem); font-weight: 700; color: var(--iv); letter-spacing: -.028em; line-height: 1.2; margin-bottom: 14px; }
+.cab-tl__d { font-size: 15px; line-height: 1.75; color: var(--mut); font-weight: 300; max-width: 560px; }
+
+/* Philosophy */
+.cab-philo { position: relative; }
+.cab-philo__h { text-align: center; margin-bottom: 80px; max-width: 800px; margin-left: auto; margin-right: auto; }
+.cab-philo__h .cab-h2 { margin-bottom: 24px; }
+.cab-philo__grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px; }
+.cab-philo__card { position: relative; padding: 52px 44px 48px; border-radius: 28px; overflow: hidden; background: linear-gradient(155deg, rgba(23,16,42,.65), rgba(11,6,22,.9)); border: 1px solid var(--bor); transition: transform .6s var(--ease), border-color .6s var(--ease), box-shadow .6s var(--ease); }
+.cab-philo__card::before { content: ''; position: absolute; inset: 0; border-radius: inherit; padding: 1px; pointer-events: none; opacity: 0; background: linear-gradient(135deg, var(--p2), transparent 40%, transparent 60%, var(--pm)); -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0); -webkit-mask-composite: xor; mask-composite: exclude; transition: opacity .7s var(--ease); }
+.cab-philo__card:hover { border-color: transparent; box-shadow: 0 40px 100px -40px rgba(168,85,247,.7), 0 0 60px -30px var(--pm-glow); }
+.cab-philo__card:hover::before { opacity: 1; }
+.cab-philo__num { font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 700; letter-spacing: .24em; color: var(--p2); margin-bottom: 32px; display: inline-flex; align-items: center; gap: 10px; }
+.cab-philo__num::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: var(--p2); box-shadow: 0 0 10px var(--glow); }
+.cab-philo__ic { width: 60px; height: 60px; border-radius: 18px; display: grid; place-items: center; font-size: 26px; margin-bottom: 28px; background: linear-gradient(135deg, rgba(168,85,247,.16), rgba(244,114,182,.12)); border: 1px solid rgba(168,85,247,.24); transition: transform 1s var(--ease); }
+.cab-philo__card:hover .cab-philo__ic { transform: rotate(-10deg) scale(1.08); }
+.cab-philo__t { font-family: 'Manrope', sans-serif; font-size: clamp(1.5rem, 2.4vw, 1.9rem); font-weight: 700; color: var(--iv); letter-spacing: -.028em; line-height: 1.2; margin-bottom: 16px; }
+.cab-philo__d { font-size: 15px; line-height: 1.75; color: var(--mut); font-weight: 300; letter-spacing: -.005em; }
+
+/* Diff */
+.cab-diff { position: relative; }
+.cab-diff__h { text-align: center; margin-bottom: 80px; }
+.cab-diff__h .cab-h2 { margin-bottom: 20px; }
+.cab-diff__vs { display: grid; grid-template-columns: 1fr 100px 1fr; gap: 40px; align-items: stretch; }
+.cab-diff__side { padding: 48px 40px; border-radius: 28px; background: rgba(23,16,42,.5); border: 1px solid var(--bor); position: relative; }
+.cab-diff__side--course { background: radial-gradient(circle at 100% 0%, rgba(168,85,247,.12), transparent 50%), rgba(23,16,42,.6); border: 1px solid var(--bor-2); }
+.cab-diff__side h4 { font-family: 'Manrope', sans-serif; font-size: 1.3rem; font-weight: 700; letter-spacing: -.02em; color: var(--iv); margin-bottom: 32px; padding-bottom: 20px; border-bottom: 1px solid var(--bor); }
+.cab-diff__side--course h4 { background: linear-gradient(120deg, var(--p2), var(--pm)); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; }
+.cab-diff__side ul { list-style: none; display: flex; flex-direction: column; gap: 16px; }
+.cab-diff__side li { display: flex; align-items: flex-start; gap: 14px; font-size: 14.5px; line-height: 1.6; color: var(--soft); font-weight: 300; }
+.cab-diff__side li i { font-style: normal; width: 20px; height: 20px; flex-shrink: 0; display: grid; place-items: center; border-radius: 5px; font-size: 11px; margin-top: 2px; }
+.cab-diff__side li i.cab-x { background: rgba(255,255,255,.04); border: 1px solid rgba(255,255,255,.08); color: var(--dim); }
+.cab-diff__side li i.cab-check { background: linear-gradient(135deg, var(--p1), var(--pm)); color: #fff; box-shadow: 0 0 10px -2px var(--glow); font-weight: 700; }
+.cab-diff__vs-c { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 20px; position: relative; }
+.cab-diff__vs-c::before, .cab-diff__vs-c::after { content: ''; width: 1px; flex: 1; background: linear-gradient(180deg, transparent, var(--bor-2)); }
+.cab-diff__vs-c::after { background: linear-gradient(0deg, transparent, var(--bor-2)); }
+.cab-diff__vs-label { font-family: 'Manrope', sans-serif; font-size: 1.4rem; font-weight: 800; letter-spacing: -.05em; padding: 14px 20px; border-radius: 100px; background: linear-gradient(135deg, var(--p1), var(--pm)); color: #fff; box-shadow: 0 0 30px -6px var(--glow), 0 0 60px -20px var(--pm-glow); animation: cabVSPulse 3s ease-in-out infinite; }
+@keyframes cabVSPulse { 0%, 100% { box-shadow: 0 0 30px -6px var(--glow), 0 0 60px -20px var(--pm-glow); transform: scale(1); } 50% { box-shadow: 0 0 50px -4px var(--glow), 0 0 80px -10px var(--pm-glow); transform: scale(1.05); } }
+
+/* Experience */
+.cab-exp { position: relative; }
+.cab-exp__h { margin-bottom: 80px; max-width: 700px; }
+.cab-exp__h .cab-h2 { margin-bottom: 24px; }
+.cab-exp__grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
+.cab-exp__panel { position: relative; padding: 44px 32px 40px; border-radius: 24px; overflow: hidden; background: linear-gradient(165deg, rgba(23,16,42,.7), rgba(11,6,22,.95)); border: 1px solid var(--bor); transition: all .6s var(--ease); min-height: 320px; display: flex; flex-direction: column; }
+.cab-exp__panel:hover { border-color: var(--bor-2); transform: translateY(-6px); box-shadow: 0 40px 80px -35px rgba(168,85,247,.6); }
+.cab-exp__num { font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 700; letter-spacing: .22em; color: var(--dim); margin-bottom: auto; }
+.cab-exp__stg { font-family: 'Manrope', sans-serif; font-size: clamp(1.8rem, 3vw, 2.4rem); font-weight: 800; letter-spacing: -.05em; line-height: 1; background: linear-gradient(135deg, var(--p2), var(--pm)); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 16px; }
+.cab-exp__d { font-size: 14px; line-height: 1.65; color: var(--mut); font-weight: 300; }
+.cab-exp__panel::after { content: ''; position: absolute; bottom: 0; left: 32px; right: 32px; height: 1px; background: linear-gradient(90deg, transparent, var(--p2), transparent); transform: scaleX(0); transform-origin: center; transition: transform .8s var(--ease); }
+.cab-exp__panel:hover::after { transform: scaleX(1); }
+
+/* Numbers */
+.cab-num { position: relative; padding: 160px 0; overflow: hidden; }
+.cab-num::before { content: ''; position: absolute; top: 50%; left: 50%; width: 1000px; height: 400px; margin: -200px 0 0 -500px; background: radial-gradient(ellipse, rgba(124,58,237,.18), transparent 65%); filter: blur(80px); pointer-events: none; }
+.cab-num__grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0; position: relative; z-index: 1; }
+.cab-num__item { text-align: center; padding: 40px 24px; position: relative; }
+.cab-num__item + .cab-num__item::before { content: ''; position: absolute; left: 0; top: 25%; height: 50%; width: 1px; background: linear-gradient(180deg, transparent, rgba(196,132,252,.2), transparent); }
+.cab-num__n { font-family: 'Manrope', sans-serif; font-size: clamp(3.5rem, 7vw, 6rem); font-weight: 700; line-height: .95; letter-spacing: -.06em; background: linear-gradient(180deg, var(--iv) 0%, var(--p3) 60%, var(--p1) 100%); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 20px; filter: drop-shadow(0 0 30px rgba(168,85,247,.4)); }
+.cab-num__l { font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 600; letter-spacing: .22em; text-transform: uppercase; color: var(--mut); }
+
+/* Built For */
+.cab-built { position: relative; }
+.cab-built__h { margin-bottom: 80px; max-width: 700px; }
+.cab-built__h .cab-h2 { margin-bottom: 24px; }
+.cab-built__grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 80px; }
+.cab-built__card { padding: 36px 28px; border-radius: 20px; background: rgba(23,16,42,.4); border: 1px solid var(--bor); transition: all .5s var(--ease); position: relative; overflow: hidden; min-height: 180px; display: flex; flex-direction: column; justify-content: flex-end; }
+.cab-built__card:hover { background: rgba(23,16,42,.7); border-color: var(--bor-2); transform: translateY(-4px); }
+.cab-built__num { font-family: 'JetBrains Mono', monospace; font-size: 10.5px; font-weight: 700; letter-spacing: .2em; color: var(--dim); margin-bottom: auto; transition: color .4s var(--ease); }
+.cab-built__card:hover .cab-built__num { color: var(--p2); }
+.cab-built__t { font-family: 'Manrope', sans-serif; font-size: 1.15rem; font-weight: 700; color: var(--iv); letter-spacing: -.02em; line-height: 1.3; }
+.cab-built__big { text-align: center; padding: 60px 0 20px; position: relative; }
+.cab-built__big-t { font-family: 'Manrope', sans-serif; font-size: clamp(3rem, 10vw, 9rem); font-weight: 800; line-height: .95; letter-spacing: -.06em; background: linear-gradient(120deg, var(--iv) 0%, var(--p2) 50%, var(--pm) 100%); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; animation: cabBigShine 8s ease-in-out infinite; background-size: 200% 100%; }
+@keyframes cabBigShine { 0%, 100% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } }
+
+/* Personality */
+.cab-pers { position: relative; padding: 160px 0; overflow: hidden; }
+.cab-pers__inner { display: grid; grid-template-columns: 1fr 1.1fr; gap: 80px; align-items: center; position: relative; z-index: 1; }
+.cab-pers__h .cab-h2 { margin-bottom: 28px; }
+.cab-pers__txt { font-size: 1.05rem; line-height: 1.85; color: var(--mut); font-weight: 300; max-width: 500px; letter-spacing: -.005em; }
+.cab-pers__txt b { color: var(--soft); font-weight: 500; }
+.cab-pers__words { position: relative; height: 520px; border-radius: 28px; overflow: hidden; background: radial-gradient(circle at 50% 50%, rgba(124,58,237,.12), transparent 70%); border: 1px solid var(--bor); }
+.cab-pers__w { position: absolute; font-family: 'Manrope', sans-serif; font-weight: 800; letter-spacing: -.04em; color: var(--p3); text-shadow: 0 0 30px var(--glow); animation: cabFloat 8s ease-in-out infinite; cursor: default; transition: color .5s var(--ease), transform .5s var(--ease); white-space: nowrap; }
+.cab-pers__w:hover { color: var(--iv); transform: scale(1.15) !important; text-shadow: 0 0 40px var(--pm-glow), 0 0 80px var(--pm-glow); }
+.cab-pers__w--1 { top: 8%; left: 8%; font-size: 2.6rem; animation-delay: 0s; }
+.cab-pers__w--2 { top: 22%; right: 6%; font-size: 2.2rem; animation-delay: 1s; color: var(--pm); }
+.cab-pers__w--3 { top: 42%; left: 12%; font-size: 3rem; animation-delay: 2s; }
+.cab-pers__w--4 { top: 58%; right: 10%; font-size: 2.4rem; animation-delay: .5s; }
+.cab-pers__w--5 { top: 74%; left: 18%; font-size: 2.1rem; animation-delay: 1.5s; color: var(--pm); }
+.cab-pers__w--6 { top: 88%; right: 14%; font-size: 2.5rem; animation-delay: 2.5s; }
+@keyframes cabFloat { 0%, 100% { transform: translate(0, 0); } 33% { transform: translate(12px, -10px); } 66% { transform: translate(-8px, 10px); } }
+
+/* Founder */
+.cab-founder { display: grid; grid-template-columns: .9fr 1.1fr; gap: 80px; align-items: center; padding: 130px 0; }
+.cab-founder__v { position: relative; perspective: 1200px; }
+.cab-founder__frame { position: relative; border-radius: 32px; overflow: hidden; aspect-ratio: 4 / 5; max-width: 460px; margin: 0 auto; background: linear-gradient(155deg, rgba(23,16,42,.95), rgba(11,6,22,.98)); border: 1px solid var(--bor-2); box-shadow: 0 40px 100px -40px rgba(0,0,0,.9), 0 0 80px -30px var(--glow); transition: transform .6s var(--ease); transform-style: preserve-3d; }
+.cab-founder__frame::after { content: ''; position: absolute; inset: 0; pointer-events: none; background: linear-gradient(180deg, transparent 55%, rgba(5,3,10,.95) 100%); z-index: 2; }
+.cab-founder__frame img { width: 100%; height: 100%; object-fit: cover; object-position: center top; transition: transform .8s var(--ease); }
+.cab-founder__frame:hover img { transform: scale(1.04); }
+.cab-founder__info { position: absolute; bottom: 0; left: 0; right: 0; padding: 36px 32px 32px; z-index: 3; }
+.cab-founder__name { font-family: 'Manrope', sans-serif; font-size: 1.5rem; font-weight: 800; color: var(--iv); letter-spacing: -.03em; line-height: 1.15; margin-bottom: 8px; }
+.cab-founder__role { font-family: 'JetBrains Mono', monospace; font-size: 10.5px; letter-spacing: .2em; text-transform: uppercase; color: var(--p2); font-weight: 600; }
+.cab-founder__badge { position: absolute; top: 24px; left: 24px; z-index: 4; padding: 7px 14px; border-radius: 100px; font-family: 'JetBrains Mono', monospace; font-size: 9.5px; font-weight: 700; letter-spacing: .16em; text-transform: uppercase; background: linear-gradient(135deg, rgba(255,215,0,.95), rgba(255,165,0,.95)); color: #1A0805; box-shadow: 0 8px 24px -6px rgba(255,180,0,.6); }
+.cab-founder__txt .cab-h2 { margin-bottom: 32px; }
+.cab-founder__p { font-size: 1.05rem; line-height: 1.85; color: var(--mut); font-weight: 300; margin-bottom: 24px; letter-spacing: -.005em; }
+.cab-founder__p b { color: var(--soft); font-weight: 500; }
+.cab-founder__role-line { display: flex; align-items: center; gap: 16px; padding-top: 32px; margin-top: 32px; border-top: 1px solid var(--bor); font-family: 'JetBrains Mono', monospace; font-size: 11.5px; letter-spacing: .12em; color: var(--p2); font-weight: 600; text-transform: uppercase; }
+.cab-founder__role-line span { color: var(--dim); }
+
+/* Manifesto */
+.cab-manif { position: relative; height: 400vh; background: linear-gradient(180deg, var(--bg) 0%, #0B0616 20%, #150A2A 50%, #1E0F3D 80%, var(--bg) 100%); overflow: clip; }
+.cab-manif__sticky { position: sticky; top: 0; height: 100vh; display: flex; align-items: center; justify-content: center; overflow: hidden; }
+.cab-manif__stage { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; text-align: center; padding: 0 32px; opacity: 0; transform: scale(.95); transition: opacity 1s var(--ease), transform 1.2s var(--ease); pointer-events: none; }
+.cab-manif__stage.is-on { opacity: 1; transform: scale(1); pointer-events: auto; }
+.cab-manif__t { font-family: 'Manrope', sans-serif; }
+.cab-manif__stage--intro .cab-manif__t { font-size: clamp(1.6rem, 3.4vw, 3rem); font-weight: 600; line-height: 1.35; letter-spacing: -.02em; color: var(--iv); max-width: 900px; }
+.cab-manif__stage--intro .cab-manif__t b { background: linear-gradient(120deg, var(--p2), var(--pm)); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; font-weight: 700; }
+.cab-manif__stage--word .cab-manif__t, .cab-manif__stage--final .cab-manif__t { font-size: clamp(3.5rem, 12vw, 9rem); font-weight: 800; letter-spacing: -.06em; line-height: .9; background: linear-gradient(180deg, #FFFFFF 0%, var(--p3) 60%, var(--p1) 100%); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; filter: drop-shadow(0 0 40px rgba(168,85,247,.5)); }
+.cab-manif__stage--final .cab-manif__t { background: linear-gradient(120deg, var(--p2), var(--pm)); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; filter: drop-shadow(0 0 60px rgba(244,114,182,.6)); animation: cabPulseFinal 3s ease-in-out infinite; }
+@keyframes cabPulseFinal { 0%, 100% { filter: drop-shadow(0 0 60px rgba(244,114,182,.6)); } 50% { filter: drop-shadow(0 0 100px rgba(244,114,182,.9)); } }
+.cab-manif__dots { position: absolute; right: 32px; top: 50%; transform: translateY(-50%); display: flex; flex-direction: column; gap: 14px; z-index: 5; }
+.cab-manif__dot { width: 6px; height: 6px; border-radius: 50%; background: rgba(196,132,252,.2); transition: all .5s var(--ease); }
+.cab-manif__dot.is-on { background: var(--p2); box-shadow: 0 0 12px var(--glow); transform: scale(1.6); }
+
+/* CTA */
+.cab-cta { position: relative; padding: 160px 0 140px; text-align: center; overflow: hidden; }
+.cab-cta__bg { position: absolute; top: 50%; left: 50%; width: 900px; height: 900px; margin: -450px 0 0 -450px; background: radial-gradient(circle, rgba(168,85,247,.28), transparent 65%); filter: blur(100px); pointer-events: none; animation: cabOrbPulse 8s ease-in-out infinite; }
+.cab-cta__in { position: relative; z-index: 1; max-width: 820px; margin: 0 auto; }
+.cab-cta__t { font-family: 'Manrope', sans-serif; font-size: clamp(2.4rem, 5.5vw, 4.4rem); font-weight: 800; line-height: 1.02; letter-spacing: -.045em; color: var(--iv); margin-bottom: 28px; }
+.cab-cta__t span { background: linear-gradient(120deg, var(--p2), var(--pm)); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; animation: cabBigShine 6s ease-in-out infinite; background-size: 200% 100%; }
+.cab-cta__s { color: var(--mut); font-size: 1.15rem; max-width: 520px; margin: 0 auto 48px; line-height: 1.7; font-weight: 300; }
+.cab-cta__btns { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
+
+/* Buttons */
+.cab-btn { position: relative; display: inline-flex; align-items: center; justify-content: center; gap: 10px; padding: 18px 36px; border-radius: 100px; overflow: hidden; font-family: 'Manrope', sans-serif; font-size: 15px; font-weight: 700; letter-spacing: .005em; white-space: nowrap; cursor: pointer; transition: transform .4s var(--ease), box-shadow .4s var(--ease); isolation: isolate; }
+.cab-btn--pri { background: linear-gradient(120deg, var(--p1), var(--pm)); color: #fff; box-shadow: 0 12px 40px -12px rgba(168,85,247,.8), inset 0 1px 0 rgba(255,255,255,.2); }
+.cab-btn--pri:hover { transform: translateY(-3px); box-shadow: 0 20px 60px -16px rgba(168,85,247,.95), 0 0 40px -8px var(--pm-glow); }
+.cab-btn--ghost { background: rgba(23,16,42,.5); border: 1px solid var(--bor-2); color: var(--iv); backdrop-filter: blur(10px); }
+.cab-btn--ghost:hover { border-color: var(--p2); background: rgba(168,85,247,.1); transform: translateY(-3px); }
+.cab-arrow { display: inline-block; transition: transform .4s var(--ease); }
+.cab-btn:hover .cab-arrow { transform: translateX(5px); }
+
+/* Responsive */
+@media (max-width: 1080px) {
+    .cab-philo__grid { grid-template-columns: 1fr; gap: 20px; }
+    .cab-diff__vs { grid-template-columns: 1fr; gap: 32px; }
+    .cab-diff__vs-c { flex-direction: row; justify-content: center; gap: 16px; }
+    .cab-diff__vs-c::before, .cab-diff__vs-c::after { width: auto; height: 1px; flex: 1; background: linear-gradient(90deg, transparent, var(--bor-2), transparent); }
+    .cab-exp__grid { grid-template-columns: repeat(2, 1fr); }
+    .cab-num__grid { grid-template-columns: repeat(2, 1fr); }
+    .cab-num__item:nth-child(3)::before { display: none; }
+    .cab-num__item:nth-child(3), .cab-num__item:nth-child(4) { border-top: 1px solid var(--bor); padding-top: 40px; margin-top: 40px; }
+    .cab-built__grid { grid-template-columns: repeat(2, 1fr); }
+    .cab-pers__inner { grid-template-columns: 1fr; gap: 60px; }
+    .cab-pers__words { height: 400px; }
+    .cab-founder { grid-template-columns: 1fr; gap: 60px; }
+    .cab-founder__frame { max-width: 100%; aspect-ratio: 1; }
+}
+@media (max-width: 640px) {
+    .cab-c { padding: 0 20px; }
+    .cab-sec { padding: 80px 0; }
+    .cab-hero { padding: 120px 0 80px; min-height: auto; }
+    .cab-hero__orb { width: 600px; height: 600px; margin: -300px 0 0 -300px; }
+    .cab-hero__sphere { width: 220px; height: 220px; margin: -110px 0 0 -110px; }
+    .cab-origin { padding: 100px 0 80px; }
+    .cab-tl { padding-left: 44px; }
+    .cab-tl::before { left: 12px; }
+    .cab-tl__item::before { left: -40px; width: 12px; height: 12px; }
+    .cab-tl__item { padding-bottom: 60px; }
+    .cab-philo__card { padding: 40px 28px 36px; border-radius: 24px; }
+    .cab-diff__side { padding: 36px 28px; }
+    .cab-exp__grid { grid-template-columns: 1fr; }
+    .cab-exp__panel { min-height: auto; }
+    .cab-num { padding: 100px 0; }
+    .cab-num__n { font-size: clamp(3rem, 15vw, 4.5rem); }
+    .cab-built__grid { grid-template-columns: 1fr; }
+    .cab-pers__words { height: 360px; }
+    .cab-pers__w--1 { font-size: 1.8rem; }
+    .cab-pers__w--2 { font-size: 1.5rem; }
+    .cab-pers__w--3 { font-size: 2rem; }
+    .cab-pers__w--4 { font-size: 1.6rem; }
+    .cab-pers__w--5 { font-size: 1.4rem; }
+    .cab-pers__w--6 { font-size: 1.7rem; }
+    .cab-founder { padding: 80px 0; }
+    .cab-cta { padding: 100px 0 90px; }
+    .cab-cta__btns { flex-direction: column; }
+    .cab-cta__btns .cab-btn { width: 100%; }
+    .cab-manif { height: 300vh; }
+    .cab-manif__dots { right: 12px; gap: 10px; }
+}
+@media (prefers-reduced-motion: reduce) {
+    .cab * { animation-duration: .01ms !important; transition-duration: .01ms !important; }
+    .cab-r { opacity: 1; transform: none; }
+}
+</style>
+
+<!-- Hero -->
+<section class="cab-hero">
+    <div class="cab-hero__bg" aria-hidden="true">
+        <div class="cab-hero__orb" id="cabHeroOrb"></div>
+        <div class="cab-hero__sphere" id="cabHeroSphere"></div>
+        <div class="cab-hero__ptc cab-hero__ptc--1"></div>
+        <div class="cab-hero__ptc cab-hero__ptc--2"></div>
+        <div class="cab-hero__ptc cab-hero__ptc--3"></div>
+        <div class="cab-hero__ptc cab-hero__ptc--4"></div>
+        <div class="cab-hero__ptc cab-hero__ptc--5"></div>
+    </div>
+    <div class="cab-c cab-hero__in">
+        <span class="cab-hero__badge cab-r">// About CourseCraft</span>
+        <h1 class="cab-h1 cab-r" style="--d:100ms">
+            We're not building another LMS.
+            <span>We're building the future of learning.</span>
+        </h1>
+        <p class="cab-lead cab-r" style="--d:220ms">
+            CourseCraft is a premium learning platform designed for people who don't just want to consume knowledge — they want to <b>master it.</b>
+        </p>
+        <div class="cab-hero__status cab-r" style="--d:340ms">
+            <i></i> Building the next era of learning
+        </div>
+    </div>
+</section>
+
+<!-- Origin -->
+<section class="cab-origin">
+    <div class="cab-c">
+        <div class="cab-origin__h cab-r">
+            <span class="cab-eye">Origin Story</span>
+            <h2 class="cab-h2">It started with a <span>simple frustration.</span></h2>
+        </div>
+        <div class="cab-origin__txt cab-r" style="--d:80ms">
+            Most learning platforms feel the same. Click a course. Watch a video. Complete a quiz. Repeat.
+        </div>
+        <div class="cab-origin__txt cab-r" style="--d:160ms">
+            We wanted something different. <b>Something that made learning feel exciting again.</b>
+        </div>
+        <div class="cab-tl">
+            <div class="cab-tl__item cab-r">
+                <span class="cab-tl__yr">2024</span>
+                <h3 class="cab-tl__t">The idea</h3>
+                <p class="cab-tl__d">An experiment in the middle of the night. What would learning look like if design and technology were treated as one experience?</p>
+            </div>
+            <div class="cab-tl__item cab-r" style="--d:150ms">
+                <span class="cab-tl__yr">2025</span>
+                <h3 class="cab-tl__t">The first prototype</h3>
+                <p class="cab-tl__d">Hundreds of hours of building, testing, breaking and rebuilding. The first version of CourseCraft was born — barely. But it existed.</p>
+            </div>
+            <div class="cab-tl__item cab-r" style="--d:300ms">
+                <span class="cab-tl__yr">2026</span>
+                <h3 class="cab-tl__t">CourseCraft</h3>
+                <p class="cab-tl__d">What started as a question became a platform. Today, thousands of learners use CourseCraft to master real skills — not just pass time.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Philosophy -->
+<section class="cab-sec cab-philo">
+    <div class="cab-c">
+        <div class="cab-philo__h">
+            <span class="cab-eye cab-r">Our Philosophy</span>
+            <h2 class="cab-h2 cab-r" style="--d:80ms">Learning should feel like <span>an experience.</span></h2>
+        </div>
+        <div class="cab-philo__grid">
+            <div class="cab-philo__card cab-r cab-tilt">
+                <span class="cab-philo__num">01 — Depth</span>
+                <div class="cab-philo__ic">◈</div>
+                <h3 class="cab-philo__t">Go deeper. Understand more. Master the craft.</h3>
+                <p class="cab-philo__d">We don't believe in surface-level learning. Every course is designed to make you think, not memorize.</p>
+            </div>
+            <div class="cab-philo__card cab-r cab-tilt" style="--d:100ms">
+                <span class="cab-philo__num">02 — Momentum</span>
+                <div class="cab-philo__ic">⟁</div>
+                <h3 class="cab-philo__t">Progress should feel visible. Every lesson should move you forward.</h3>
+                <p class="cab-philo__d">Every lesson has purpose. Every session ends with something you've built, learned, or understood better.</p>
+            </div>
+            <div class="cab-philo__card cab-r cab-tilt" style="--d:200ms">
+                <span class="cab-philo__num">03 — Craft</span>
+                <div class="cab-philo__ic">✦</div>
+                <h3 class="cab-philo__t">Beautiful interfaces aren't decoration. They're part of the experience.</h3>
+                <p class="cab-philo__d">Design is not decoration. It's how learning feels. Every pixel serves the learning, never competes with it.</p>
+            </div>
+            <div class="cab-philo__card cab-r cab-tilt" style="--d:300ms">
+                <span class="cab-philo__num">04 — Mastery</span>
+                <div class="cab-philo__ic">◐</div>
+                <h3 class="cab-philo__t">Don't just finish courses. Build skills that stay with you.</h3>
+                <p class="cab-philo__d">The goal isn't to finish a course. It's to leave with something real — a skill, a project, a new way of thinking.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Different -->
+<section class="cab-sec cab-diff">
+    <div class="cab-c">
+        <div class="cab-diff__h cab-r">
+            <span class="cab-eye">What Makes Us Different</span>
+            <h2 class="cab-h2">Not another <span>forgettable platform.</span></h2>
+        </div>
+        <div class="cab-diff__vs">
+            <div class="cab-diff__side cab-r">
+                <h4>Typical LMS</h4>
+                <ul>
+                    <li><i class="cab-x">✕</i> Generic dashboard</li>
+                    <li><i class="cab-x">✕</i> Endless course lists</li>
+                    <li><i class="cab-x">✕</i> Static pages</li>
+                    <li><i class="cab-x">✕</i> Forgettable UI</li>
+                    <li><i class="cab-x">✕</i> Watch → Finish → Leave</li>
+                </ul>
+            </div>
+            <div class="cab-diff__vs-c">
+                <span class="cab-diff__vs-label">VS</span>
+            </div>
+            <div class="cab-diff__side cab-diff__side--course cab-r" style="--d:150ms">
+                <h4>CourseCraft</h4>
+                <ul>
+                    <li><i class="cab-check">✦</i> Cinematic experience</li>
+                    <li><i class="cab-check">✦</i> Intelligent learning flow</li>
+                    <li><i class="cab-check">✦</i> Interactive UI</li>
+                    <li><i class="cab-check">✦</i> Designed for focus</li>
+                    <li><i class="cab-check">✦</i> Learn → Practice → Master</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Experience -->
+<section class="cab-sec cab-exp">
+    <div class="cab-c">
+        <div class="cab-exp__h">
+            <span class="cab-eye cab-r">The CourseCraft Experience</span>
+            <h2 class="cab-h2 cab-r" style="--d:80ms">Every interaction has <span>a purpose.</span></h2>
+        </div>
+        <div class="cab-exp__grid">
+            <div class="cab-exp__panel cab-r">
+                <span class="cab-exp__num">01</span>
+                <div class="cab-exp__stg">DISCOVER</div>
+                <p class="cab-exp__d">Find what you want to learn. No overwhelming lists. Just clarity.</p>
+            </div>
+            <div class="cab-exp__panel cab-r" style="--d:100ms">
+                <span class="cab-exp__num">02</span>
+                <div class="cab-exp__stg">LEARN</div>
+                <p class="cab-exp__d">Immersive lessons designed for focus. No distractions.</p>
+            </div>
+            <div class="cab-exp__panel cab-r" style="--d:200ms">
+                <span class="cab-exp__num">03</span>
+                <div class="cab-exp__stg">PRACTICE</div>
+                <p class="cab-exp__d">Turn knowledge into actual skill. Projects. Code. Real feedback.</p>
+            </div>
+            <div class="cab-exp__panel cab-r" style="--d:300ms">
+                <span class="cab-exp__num">04</span>
+                <div class="cab-exp__stg">MASTER</div>
+                <p class="cab-exp__d">Track your progress. Build your expertise. Own your craft.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Numbers -->
+<section class="cab-num">
+    <div class="cab-c">
+        <div class="cab-num__grid">
+            <div class="cab-num__item cab-r">
+                <div class="cab-num__n">∞</div>
+                <div class="cab-num__l">Possibilities</div>
+            </div>
+            <div class="cab-num__item cab-r" style="--d:100ms">
+                <div class="cab-num__n">01</div>
+                <div class="cab-num__l">Mission</div>
+            </div>
+            <div class="cab-num__item cab-r" style="--d:200ms">
+                <div class="cab-num__n">03</div>
+                <div class="cab-num__l">Core Principles</div>
+            </div>
+            <div class="cab-num__item cab-r" style="--d:300ms">
+                <div class="cab-num__n">100%</div>
+                <div class="cab-num__l">Obsessed with Learning</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Built For -->
+<section class="cab-sec cab-built">
+    <div class="cab-c">
+        <div class="cab-built__h">
+            <span class="cab-eye cab-r">Built For</span>
+            <h2 class="cab-h2 cab-r" style="--d:80ms">CourseCraft is for <span>the ones who...</span></h2>
+        </div>
+        <div class="cab-built__grid">
+            <div class="cab-built__card cab-r">
+                <span class="cab-built__num">// 01</span>
+                <h3 class="cab-built__t">Want to build.</h3>
+            </div>
+            <div class="cab-built__card cab-r" style="--d:100ms">
+                <span class="cab-built__num">// 02</span>
+                <h3 class="cab-built__t">Want to create.</h3>
+            </div>
+            <div class="cab-built__card cab-r" style="--d:200ms">
+                <span class="cab-built__num">// 03</span>
+                <h3 class="cab-built__t">Want to understand.</h3>
+            </div>
+            <div class="cab-built__card cab-r" style="--d:300ms">
+                <span class="cab-built__num">// 04</span>
+                <h3 class="cab-built__t">Want to level up.</h3>
+            </div>
+        </div>
+        <div class="cab-built__big cab-r" style="--d:400ms">
+            <div class="cab-built__big-t">Learn different.</div>
+        </div>
+    </div>
+</section>
+
+<!-- Personality -->
+<section class="cab-pers">
+    <div class="cab-c">
+        <div class="cab-pers__inner">
+            <div class="cab-pers__h">
+                <span class="cab-eye cab-r">Brand Personality</span>
+                <h2 class="cab-h2 cab-r" style="--d:80ms">A little different <span>by design.</span></h2>
+                <p class="cab-pers__txt cab-r" style="--d:160ms">
+                    CourseCraft isn't trying to look like every other education platform. It's <b>bold</b>. It's <b>experimental</b>. It's <b>unapologetically visual</b>. Because learning doesn't have to look boring.
+                </p>
+            </div>
+            <div class="cab-pers__words cab-r" style="--d:240ms">
+                <span class="cab-pers__w cab-pers__w--1">BOLD</span>
+                <span class="cab-pers__w cab-pers__w--2">CURIOUS</span>
+                <span class="cab-pers__w cab-pers__w--3">OBSESSED</span>
+                <span class="cab-pers__w cab-pers__w--4">UNFILTERED</span>
+                <span class="cab-pers__w cab-pers__w--5">CREATIVE</span>
+                <span class="cab-pers__w cab-pers__w--6">RELENTLESS</span>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Founder -->
+<section class="cab-sec">
+    <div class="cab-c">
+        <div class="cab-founder">
+            <div class="cab-founder__v cab-r">
+                <div class="cab-founder__frame" id="cabFounderFrame">
+                    <span class="cab-founder__badge">Founder</span>
+                    <img src="http://coursecraft.com/wp-content/uploads/2026/10/ChatGPT-Image-Sep-28-2026-12_22_30-AM.png" alt="Shahzaib Shah — Founder of CourseCraft" loading="lazy">
+                    <div class="cab-founder__info">
+                        <div class="cab-founder__name">Shahzaib Shah</div>
+                        <div class="cab-founder__role">Founder &amp; Creator</div>
+                    </div>
+                </div>
+            </div>
+            <div class="cab-founder__txt">
+                <span class="cab-eye cab-r">Built By</span>
+                <h2 class="cab-h2 cab-r" style="--d:80ms">Built by someone who got <span>tired of boring LMSs.</span></h2>
+                <p class="cab-founder__p cab-r" style="--d:160ms">
+                    CourseCraft started as an experiment — a question about <b>how far an online learning platform could go</b> when design, technology and learning were treated as one experience.
+                </p>
+                <p class="cab-founder__p cab-r" style="--d:220ms">
+                    Not as three separate things. Not as an afterthought. As one.
+                </p>
+                <div class="cab-founder__role-line cab-r" style="--d:300ms">
+                    Design <span>×</span> Development <span>×</span> Learning
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Manifesto -->
+<section class="cab-manif" id="cabManif">
+    <div class="cab-manif__sticky">
+        <div class="cab-manif__stage cab-manif__stage--intro" data-manif="0">
+            <p class="cab-manif__t">We believe learning should make you <b>feel something.</b></p>
+        </div>
+        <div class="cab-manif__stage cab-manif__stage--word" data-manif="1">
+            <p class="cab-manif__t">Curious.</p>
+        </div>
+        <div class="cab-manif__stage cab-manif__stage--word" data-manif="2">
+            <p class="cab-manif__t">Challenged.</p>
+        </div>
+        <div class="cab-manif__stage cab-manif__stage--word" data-manif="3">
+            <p class="cab-manif__t">Inspired.</p>
+        </div>
+        <div class="cab-manif__stage cab-manif__stage--word" data-manif="4">
+            <p class="cab-manif__t">Capable.</p>
+        </div>
+        <div class="cab-manif__stage cab-manif__stage--final" data-manif="5">
+            <p class="cab-manif__t">And unstoppable.</p>
+        </div>
+        <div class="cab-manif__dots" aria-hidden="true">
+            <span class="cab-manif__dot" data-dot="0"></span>
+            <span class="cab-manif__dot" data-dot="1"></span>
+            <span class="cab-manif__dot" data-dot="2"></span>
+            <span class="cab-manif__dot" data-dot="3"></span>
+            <span class="cab-manif__dot" data-dot="4"></span>
+            <span class="cab-manif__dot" data-dot="5"></span>
+        </div>
+    </div>
+</section>
+
+<!-- CTA -->
+<section class="cab-cta">
+    <div class="cab-cta__bg" aria-hidden="true"></div>
+    <div class="cab-c">
+        <div class="cab-cta__in">
+            <h2 class="cab-cta__t cab-r">
+                Ready to become better<br>at <span>what you do?</span>
+            </h2>
+            <p class="cab-cta__s cab-r" style="--d:100ms">Your next skill is waiting.</p>
+            <div class="cab-cta__btns cab-r" style="--d:200ms">
+                <a href="/courses/" class="cab-btn cab-btn--pri">Explore Courses <span class="cab-arrow">→</span></a>
+                <a href="/student-registration/" class="cab-btn cab-btn--ghost">Start Learning</a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script>
+(function() {
+    var root = document.getElementById('cabRoot');
+    if (!root || root.dataset.init === '1') return;
+    root.dataset.init = '1';
+    var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    var isMobile = window.matchMedia('(max-width: 720px)').matches;
+
+    // Reveal on scroll
+    if ('IntersectionObserver' in window && !reduce) {
+        var io = new IntersectionObserver(function(entries) {
+            entries.forEach(function(entry) {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('is-in');
+                    io.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.14, rootMargin: '0px 0px -60px 0px' });
+        root.querySelectorAll('.cab-r').forEach(function(el) { io.observe(el); });
+    } else {
+        root.querySelectorAll('.cab-r').forEach(function(el) { el.classList.add('is-in'); });
+    }
+
+    // Timeline dots
+    if ('IntersectionObserver' in window && !reduce) {
+        var tlIO = new IntersectionObserver(function(entries) {
+            entries.forEach(function(entry) {
+                if (entry.isIntersecting) entry.target.classList.add('is-in');
+            });
+        }, { threshold: 0.4 });
+        root.querySelectorAll('.cab-tl__item').forEach(function(el) { tlIO.observe(el); });
+    }
+
+    // Hero parallax
+    var heroOrb = document.getElementById('cabHeroOrb');
+    var heroSphere = document.getElementById('cabHeroSphere');
+    if (heroOrb && heroSphere && !reduce && !isMobile && window.matchMedia('(hover:hover)').matches) {
+        var hero = heroOrb.closest('.cab-hero');
+        var heroRaf = null;
+        hero.addEventListener('mousemove', function(e) {
+            if (heroRaf) return;
+            heroRaf = requestAnimationFrame(function() {
+                var rect = hero.getBoundingClientRect();
+                var x = (e.clientX - rect.left) / rect.width - 0.5;
+                var y = (e.clientY - rect.top) / rect.height - 0.5;
+                heroOrb.style.translate = (x * 40) + 'px ' + (y * 40) + 'px';
+                heroSphere.style.translate = (x * 20) + 'px ' + (y * 20) + 'px';
+                heroRaf = null;
+            });
+        }, { passive: true });
+        hero.addEventListener('mouseleave', function() {
+            heroOrb.style.translate = '';
+            heroSphere.style.translate = '';
+        });
+    }
+
+    // Philosophy card tilt
+    if (!isMobile && window.matchMedia('(hover:hover)').matches) {
+        root.querySelectorAll('.cab-tilt').forEach(function(card) {
+            card.addEventListener('mousemove', function(e) {
+                var rect = card.getBoundingClientRect();
+                var x = (e.clientX - rect.left) / rect.width - 0.5;
+                var y = (e.clientY - rect.top) / rect.height - 0.5;
+                card.style.transform = 'perspective(1000px) rotateY(' + (x * 6) + 'deg) rotateX(' + (-y * 6) + 'deg) translateY(-8px)';
+            });
+            card.addEventListener('mouseleave', function() {
+                card.style.transform = '';
+            });
+        });
+    }
+
+    // Founder frame tilt
+    var founderFrame = document.getElementById('cabFounderFrame');
+    if (founderFrame && !isMobile && window.matchMedia('(hover:hover)').matches) {
+        founderFrame.addEventListener('mousemove', function(e) {
+            var rect = founderFrame.getBoundingClientRect();
+            var x = (e.clientX - rect.left) / rect.width - 0.5;
+            var y = (e.clientY - rect.top) / rect.height - 0.5;
+            founderFrame.style.transform = 'perspective(1200px) rotateY(' + (x * 10) + 'deg) rotateX(' + (-y * 10) + 'deg)';
+        });
+        founderFrame.addEventListener('mouseleave', function() {
+            founderFrame.style.transform = '';
+        });
+    }
+
+    // Manifesto sticky scroll
+    var manifSection = document.getElementById('cabManif');
+    if (manifSection) {
+        var manifStages = manifSection.querySelectorAll('.cab-manif__stage');
+        var manifDots = manifSection.querySelectorAll('.cab-manif__dot');
+        var manifRaf = null;
+        function updateManif() {
+            if (manifRaf) return;
+            manifRaf = requestAnimationFrame(function() {
+                var rect = manifSection.getBoundingClientRect();
+                var total = manifSection.offsetHeight - window.innerHeight;
+                var scrolled = Math.max(0, Math.min(-rect.top, total));
+                var progress = total > 0 ? scrolled / total : 0;
+                var active = Math.min(manifStages.length - 1, Math.floor(progress * manifStages.length));
+                manifStages.forEach(function(s, i) {
+                    s.classList.toggle('is-on', i === active);
+                });
+                manifDots.forEach(function(d, i) {
+                    d.classList.toggle('is-on', i === active);
+                });
+                manifRaf = null;
+            });
+        }
+        window.addEventListener('scroll', updateManif, { passive: true });
+        updateManif();
+    }
+})();
+</script>
+</div>
